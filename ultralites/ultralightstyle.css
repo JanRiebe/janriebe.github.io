@@ -1,0 +1,28 @@
+
+body {
+    font-size: 1vw;
+    text-align: justify;
+    font-family: 'Source Serif Pro', serif;
+
+    padding-top: 3vw;
+    padding-bottom: 3vw;
+    padding-right: 15vw;
+    padding-left: 15vw;
+}
+
+
+.page {
+    margin: auto;
+    border: 2px solid black;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    padding: 4vw;
+    height: 35vw
+}
+.columns {
+    column-count: 2;
+    column-gap: 5vw;
+}
+
+.footer {
+    text-align: right
+}
