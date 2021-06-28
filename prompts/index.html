@@ -18,12 +18,15 @@
 
     <script>
 
-        var randomIndex = Math.floor(Math.random() * allContent.length);
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.onload = function() {
           const myObj = JSON.parse(this.responseText);
-          document.getElementById("heading").innerHTML = myObj[randomIndex].name;
-          document.getElementById("text").innerHTML = myObj[randomIndex].text;
+          if(myObj.length > 0)
+          {              
+              var randomIndex = Math.floor(Math.random() * myObj.length);
+              document.getElementById("heading").innerHTML = myObj[randomIndex].name;
+              document.getElementById("text").innerHTML = myObj[randomIndex].text;
+          }
         }
         xmlhttp.open("GET", "content.json");
         xmlhttp.send();
