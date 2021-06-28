@@ -17,9 +17,19 @@
     </div>
 
     <script>
-        console.log(getRandomContent()["name"]);
-        document.getElementById("heading").innerHTML = getRandomContent("name");
-        document.getElementById("text").innerHTML = getRandomContent("text");
+
+
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.onload = function() {
+          const myObj = JSON.parse(this.responseText);
+          document.getElementById("heading").innerHTML = myObj.name;
+          document.getElementById("text").innerHTML = myObj.text;
+        }
+        xmlhttp.open("GET", "content.json");
+        xmlhttp.send();
+    //    console.log(getRandomContent()["name"]);
+    //    document.getElementById("heading").innerHTML = getRandomContent("name");
+    //    document.getElementById("text").innerHTML = getRandomContent("text");
     </script>
 </body>
 </html>
