@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="prompts.css">
+    <script src="randomcontent.js"></script>
+</head>
+<body>
+    <div class="page">
+        <h1>...</h1>
+        <div class="columns" id="text">
+            ...
+        </div>
+    </div>
+    <div class="footer">
+        <a href="index.html">next</a>
+    </div>
+
+    <script>
+        console.log(getRandomContent()["name"]);
+        document.getElementById("heading").innerHTML = getRandomContent("name");
+        document.getElementById("text").innerHTML = getRandomContent("text");
+    </script>
+</body>
+</html>
