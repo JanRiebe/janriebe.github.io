@@ -22,8 +22,8 @@
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.onload = function() {
           const myObj = JSON.parse(this.responseText);
-          document.getElementById("heading").innerHTML = myObj.name;
-          document.getElementById("text").innerHTML = myObj.text;
+          document.getElementById("heading").innerHTML = myObj[0].name;
+          document.getElementById("text").innerHTML = myObj[0].text;
         }
         xmlhttp.open("GET", "content.json");
         xmlhttp.send();
