@@ -2,6 +2,16 @@
 
 const e = React.createElement;
 
+
+class ProfilePic extends React.Component {
+    constructor(props) {
+        super(props);
+      }
+    render() {
+        return e("img", {src:"https://pbs.twimg.com/profile_images/1561261703194624000/tczixGIw_400x400.jpg"})
+    }
+}
+
 class LikeButton extends React.Component {
   constructor(props) {
     super(props);
@@ -24,4 +34,4 @@ class LikeButton extends React.Component {
 
 const domContainer = document.querySelector('#like_button_container');
 const root = ReactDOM.createRoot(domContainer);
-root.render(e(LikeButton));
+root.render(e(ProfilePic));
