@@ -29,16 +29,24 @@ function savePic() {
         anchor.href = canvas.toDataURL("image/png");
         anchor.download = "IMAGE.PNG";
         anchor.click(); 
-
+/*
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            var text = $(this).attr("data-text");
-            var url = $(this).attr("data-link");
-            var message = encodeURIComponent(text) + " - " + encodeURIComponent(url);
             var whatsapp_url = "whatsapp://send?text=" + message;
             window.location.href = whatsapp_url;
           } else {
             alert("Please use an Mobile Device to Share this Article");
           }
+          */
+         alert(navigator.share)
+          if(navigator.share) {
+            navigator.share({
+            title: 'mobiForge: Web Share API',
+            text: 'Check out this great article about the Web Share API',
+            url: 'https://mobiforge.com/design-development/web-share-api'
+            })
+            .then(() => console.log('Share complete'))
+            .error((error) => console.error('Could not share at this time', error))
+            }
     });
     
 }
