@@ -23,7 +23,8 @@ html2canvas(document.querySelector("#capture")).then(canvas => {
 */
 function savePic() {
     html2canvas(document.body).then(function(canvas) {
-        //document.body.appendChild(canvas);
+        console.log("save pic executed")
+        document.body.appendChild(canvas);
         var anchor = document.createElement("a");
         anchor.href = canvas.toDataURL("image/png");
         anchor.download = "IMAGE.PNG";
@@ -41,7 +42,7 @@ function savePic() {
     });
     
 }
-
+/*
 $(document).ready(function() {
     $(document).on("click", '.mct_whatsapp_btn', function() {
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -56,3 +57,4 @@ $(document).ready(function() {
     });
   });
 
+*/
