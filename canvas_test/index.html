@@ -21,9 +21,9 @@
     //canvas.addEventListener('touchstart', startDrawingTouch);
     //canvas.addEventListener('touchmove' , drawTouch);
     //canvas.addEventListener('touchup' , endDrawingTouch);
-    canvas.addEventListener('pointerdown' , processPointer);
-    canvas.addEventListener('pointermove' , processPointer);
-    canvas.addEventListener('pointerup' , processPointer);
+    canvas.addEventListener('pointerdown' , startDrawingTouch);
+    canvas.addEventListener('pointermove' , drawTouch);
+    canvas.addEventListener('pointerup' , endDrawingTouch);
     
     
     function processPointer(event)
@@ -76,14 +76,14 @@
     
     
     function startDrawingTouch(event) {
-      if (event.targetTouches[0].radiusX === 0 || true) {
-         if (event.targetTouches.length>0)
-          document.getElementById("pensize").innerHTML = event.targetTouches[0].radiusX;
-         else
-          document.getElementById("pensize").innerHTML = "no target touch radius";
+      //if (event.targetTouches[0].radiusX === 0 || true) {
+      //   if (event.targetTouches.length>0)
+      //    document.getElementById("pensize").innerHTML = event.targetTouches[0].radiusX;
+      //   else
+          document.getElementById("pensize").innerHTML = "pendown";
         currentPath = [];
-        penIsDown = true;
-      }
+      //  penIsDown = true;
+     // }
     }
     
     function drawTouch(event) {
@@ -93,21 +93,21 @@
           y: event.offsetY, 
           pressure: event.pressure 
         };
-         if (event.targetTouches.length>0)
+     //    if (event.targetTouches.length>0)
           document.getElementById("pensize").innerHTML = event.pressure;
-         else
-          document.getElementById("pensize").innerHTML = "no target touch radius -> no evaluation of pressure";
+      //   else
+       //   document.getElementById("pensize").innerHTML = "no target touch radius -> no evaluation of pressure";
         currentPath.push(point);
         drawPath();
       }
     }
     
     function endDrawingTouch(event) {
-      if (event.targetTouches[0].radiusX === 0 || true) {
-
+    //  if (event.targetTouches[0].radiusX === 0 || true) {
+	document.getElementById("pensize").innerHTML = "pen up";
         penIsDown = false;
         writePathToCanvas();
-      }
+     // }
     }
     
     function writePathToCanvas() {
