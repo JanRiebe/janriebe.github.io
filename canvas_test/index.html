@@ -87,7 +87,7 @@
     }
     
     function drawTouch(event) {
-      if (penIsDown) {
+      //if (penIsDown) {
         const point = { 
           x: event.offsetX, 
           y: event.offsetY, 
@@ -97,9 +97,12 @@
           document.getElementById("pensize").innerHTML = event.pressure;
       //   else
        //   document.getElementById("pensize").innerHTML = "no target touch radius -> no evaluation of pressure";
+       if(event.pressure > 0.001)
+       {
         currentPath.push(point);
         drawPath();
-      }
+        }
+     // }
     }
     
     function endDrawingTouch(event) {
