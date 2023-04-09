@@ -35,3 +35,7 @@ class LikeButton extends React.Component {
 const domContainer = document.querySelector('#like_button_container');
 const root = ReactDOM.createRoot(domContainer);
 root.render(e(ProfilePic));
+
+
+//TODO use node to transpile JSX
+//https://reactjs.org/docs/add-react-to-a-website.html

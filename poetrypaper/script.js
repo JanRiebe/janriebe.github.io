@@ -50,6 +50,20 @@ function savePic() {
     });
     
 }
+
+/*
+Todo
+add input element to write a poem
+don't save button in image
+tap background to switch paper style
+somehow change font
+allow directly sharing
+allow loading from google keep
+
+
+*/
+
+
 /*
 $(document).ready(function() {
     $(document).on("click", '.mct_whatsapp_btn', function() {
