@@ -12,6 +12,7 @@
     const ctx = canvas.getContext('2d');
     let currentPath = [];
     let currentColor = 'black';
+    let mouseIsDown = false;
     let penIsDown = false;
     
     canvas.addEventListener('mousedown', startDrawing);
@@ -26,12 +27,12 @@
          || event.targetTouches[0].radiusX === 0) {
           document.getElementById("pensize").innerHTML = "mousedraw";
         currentPath = [];
-        penIsDown = true;
+        mouseIsDown = true;
       }
     }
     
     function draw(event) {
-      if (penIsDown) {
+      if (mouseIsDown) {
         const point = { 
           x: event.offsetX, 
           y: event.offsetY, 
@@ -46,7 +47,7 @@
       if (event.button === 0 // left button
          || event.targetTouches[0].radiusX === 0) {
 
-        penIsDown = false;
+        mouseIsDown = false;
         writePathToCanvas();
       }
     }
@@ -54,8 +55,7 @@
     
     
     function startDrawingTouch(event) {
-      if (event.button === 0  // left button
-         || event.targetTouches[0].radiusX === 0 || true) {
+      if (event.targetTouches[0].radiusX === 0 || true) {
          if (event.targetTouches.length>0)
           document.getElementById("pensize").innerHTML = event.targetTouches[0].radiusX;
          else
@@ -72,14 +72,17 @@
           y: event.offsetY, 
           pressure: event.pressure 
         };
+         if (event.targetTouches.length>0)
+          document.getElementById("pensize").innerHTML = event.pressure;
+         else
+          document.getElementById("pensize").innerHTML = "no target touch radius -> no evaluation of pressure";
         currentPath.push(point);
         drawPath();
       }
     }
     
     function endDrawingTouch(event) {
-      if (event.button === 0 // left button
-         || event.targetTouches[0].radiusX === 0 || true) {
+      if (event.targetTouches[0].radiusX === 0 || true) {
 
         penIsDown = false;
         writePathToCanvas();
