@@ -141,9 +141,10 @@
     }
     */
     function drawPath() {
-      //ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (currentPath.length > 1) {
         ctx.strokeStyle = currentColor;
+        ctx.fillStyle = currentColor;
         //ctx.lineWidth = currentPath[0].pressure * 20;
         /*
         for (let i = 1; i < currentPath.length; i++) {
@@ -156,19 +157,28 @@
         }
         */
         
+        const widthFactor = 20;
 	ctx.beginPath();
-        for (let i = 1; i < currentPath.length; i++) {
+	  ctx.moveTo(currentPath[0].x, currentPath[0].y);
+          ctx.lineTo(currentPath[1].x+currentPath[1].pressure*widthFactor, currentPath[1].y+currentPath[1].pressure*widthFactor);
+        for (let i = 2; i < currentPath.length; i++) {
           const point = currentPath[i];
-          const width = point.pressure * 20;
-          ctx.moveTo(currentPath[i-1].x+width, currentPath[i-1].y+width);
-          ctx.lineTo(point.x, point.y);
+          const width = point.pressure * widthFactor;
+          //ctx.moveTo(currentPath[i-1].x+width, currentPath[i-1].y+width);
+          ctx.lineTo(point.x+width, point.y+width);
         }
-        for (let i = currentPath.length-1; i > 0; i--) {
+        const l = currentPath.length-1;
+        //ctx.moveTo(currentPath[l].x+currentPath[l].pressure*widthFactor, currentPath[l].y+currentPath[l].pressure*widthFactor);
+          ctx.lineTo(currentPath[l].x-currentPath[l].pressure*widthFactor, currentPath[l].y-currentPath[l].pressure*widthFactor);
+        for (let i = currentPath.length-1; i > 1; i--) {
           const point = currentPath[i];
-          const width = point.pressure * 20;
-          ctx.moveTo(currentPath[i-1].x-width, currentPath[i-1].y-width);
-          ctx.lineTo(point.x, point.y);
-        }
+          const width = point.pressure * widthFactor;
+          //ctx.moveTo(currentPath[i-1].x-width, currentPath[i-1].y-width);
+          ctx.lineTo(point.x-width, point.y-width);
+        }        
+	  //ctx.moveTo(currentPath[1].x-currentPath[1].pressure*widthFactor, currentPath[1].y-currentPath[1].pressure*widthFactor);
+          ctx.lineTo(currentPath[0].x, currentPath[0].y);
+          ctx.closePath();
         ctx.fill();
       }
     }
