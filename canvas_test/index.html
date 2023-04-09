@@ -116,11 +116,11 @@
     function writePathToCanvas() {
       if (currentPath.length > 1) {
         ctx.strokeStyle = currentColor;
-        ctx.lineWidth = currentPath[0].pressure * 20;
         ctx.beginPath();
         ctx.moveTo(currentPath[0].x, currentPath[0].y);
         for (let i = 1; i < currentPath.length; i++) {
           const point = currentPath[i];
+          ctx.lineWidth = point.pressure * 20;
           ctx.lineTo(point.x, point.y);
         }
         ctx.stroke();
