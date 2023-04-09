@@ -15,9 +15,9 @@
     let mouseIsDown = false;
     let penIsDown = false;
     
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', endDrawing);
+    //canvas.addEventListener('mousedown', startDrawing);
+    //canvas.addEventListener('mousemove', draw);
+    //canvas.addEventListener('mouseup', endDrawing);
     //canvas.addEventListener('touchstart', startDrawingTouch);
     //canvas.addEventListener('touchmove' , drawTouch);
     //canvas.addEventListener('touchup' , endDrawingTouch);
@@ -82,7 +82,7 @@
       //   else
           document.getElementById("pensize").innerHTML = "pendown";
         currentPath = [];
-      //  penIsDown = true;
+        penIsDown = true;
      // }
     }
     
