@@ -2,9 +2,10 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Stylus Input to SVG</title>
+  <title>Stylus Input to Canvas</title>
 </head>
 <body>
+<p id=pensize>---</p>
   <canvas id="canvas" width="500" height="500"></canvas>
   <script>
     const canvas = document.getElementById('canvas');
@@ -16,10 +17,14 @@
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', endDrawing);
+    canvas.addEventListener('touchstart', startDrawingTouch);
+    canvas.addEventListener('touchmove' , drawTouch);
+    canvas.addEventListener('touchup' , endDrawingTouch);
     
     function startDrawing(event) {
-      if (event.button === 0 || // left button
-      	  event.targetTouches[0].radiusX === 0) { 
+      if (event.button === 0  // left button
+         || event.targetTouches[0].radiusX === 0) {
+          document.getElementById("pensize").innerHTML = "mousedraw";
         currentPath = [];
         penIsDown = true;
       }
@@ -38,33 +43,65 @@
     }
     
     function endDrawing(event) {
-      if (event.button === 0 || // left button
-      	  event.targetTouches[0].radiusX === 0) { 
+      if (event.button === 0 // left button
+         || event.targetTouches[0].radiusX === 0) {
+
         penIsDown = false;
-        writePathToSvg();
+        writePathToCanvas();
       }
     }
     
-    function writePathToSvg() {
-      const svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      let pathString = '';
-      for (let i = 0; i < currentPath.length; i++) {
-        const point = currentPath[i];
-        if (i === 0) {
-          pathString += `M${point.x},${point.y}`;
-        } else {
-          pathString += `L${point.x},${point.y}`;
-        }
+    
+    
+    function startDrawingTouch(event) {
+      if (event.button === 0  // left button
+         || event.targetTouches[0].radiusX === 0 || true) {
+         if (event.targetTouches.length>0)
+          document.getElementById("pensize").innerHTML = event.targetTouches[0].radiusX;
+         else
+          document.getElementById("pensize").innerHTML = "no target touch radius";
+        currentPath = [];
+        penIsDown = true;
       }
-      svgPath.setAttribute('d', pathString);
-      svgPath.setAttribute('stroke', currentColor);
-      svgPath.setAttribute('stroke-width', currentPath[0].pressure * 20);
-      svgPath.setAttribute('fill', 'none');
-      document.querySelector('svg').appendChild(svgPath);
+    }
+    
+    function drawTouch(event) {
+      if (penIsDown) {
+        const point = { 
+          x: event.offsetX, 
+          y: event.offsetY, 
+          pressure: event.pressure 
+        };
+        currentPath.push(point);
+        drawPath();
+      }
+    }
+    
+    function endDrawingTouch(event) {
+      if (event.button === 0 // left button
+         || event.targetTouches[0].radiusX === 0 || true) {
+
+        penIsDown = false;
+        writePathToCanvas();
+      }
+    }
+    
+    function writePathToCanvas() {
+      if (currentPath.length > 1) {
+        ctx.strokeStyle = currentColor;
+        ctx.lineWidth = currentPath[0].pressure * 20;
+        ctx.beginPath();
+        ctx.moveTo(currentPath[0].x, currentPath[0].y);
+        for (let i = 1; i < currentPath.length; i++) {
+          const point = currentPath[i];
+          ctx.lineTo(point.x, point.y);
+        }
+        ctx.stroke();
+      }
     }
     
     function drawPath() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      //ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (currentPath.length > 1) {
         ctx.strokeStyle = currentColor;
         ctx.lineWidth = currentPath[0].pressure * 20;
@@ -78,7 +115,6 @@
       }
     }
   </script>
-  <svg width="500" height="500"></svg>
 </body>
 </html>
 
