@@ -22,6 +22,8 @@
     //canvas.addEventListener('touchmove' , drawTouch);
     //canvas.addEventListener('touchup' , endDrawingTouch);
     canvas.addEventListener('pointerdown' , processPointer);
+    canvas.addEventListener('pointermove' , processPointer);
+    canvas.addEventListener('pointerup' , processPointer);
     
     
     function processPointer(event)
