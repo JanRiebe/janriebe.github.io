@@ -18,9 +18,28 @@
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', endDrawing);
-    canvas.addEventListener('touchstart', startDrawingTouch);
-    canvas.addEventListener('touchmove' , drawTouch);
-    canvas.addEventListener('touchup' , endDrawingTouch);
+    //canvas.addEventListener('touchstart', startDrawingTouch);
+    //canvas.addEventListener('touchmove' , drawTouch);
+    //canvas.addEventListener('touchup' , endDrawingTouch);
+    canvas.addEventListener('pointerdown' , processPointer);
+    
+    
+    function processPointer(event)
+    {
+    document.getElementById("pensize").innerHTML = event.pressure;
+    /*
+    if (event.pressure === 0) {
+      // No pressure
+      process_no_pressure(event);
+    } else if (event.pressure === 1) {
+      // Maximum pressure
+      process_max_pressure(event);
+    } else {
+      // Default
+      process_pressure(event);
+    }
+    */
+  }
     
     function startDrawing(event) {
       if (event.button === 0  // left button
