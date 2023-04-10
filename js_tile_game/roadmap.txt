@@ -1,0 +1,53 @@
+Roadmap js tile rpg engine
+
+Goal:
+	A simple rpg engine that allows building games and runs them from text files
+	
+Features:
+	Scripting that is like screenwriting
+		definitions at beginning of scene
+		map is like this 1 0 1 1 0 0 2 3
+		character x is at tile 12 32
+		church is at tile 12 32
+		character x says y gives you z takes a moves to church
+		when character b sees you
+			character b says c
+		when you talk to character d
+			if you have e
+				character d says f
+			else
+				character d says g
+
+
+TODO:
+	Allow drawing tiles from second row of map
+	Allow drawing tiles from other maps
+	
+	Character drawing and animation
+	Also animation for tiles
+	
+	Background and foreground tiles
+	
+	Separate collision
+	Triggers
+	
+	Dialog
+	
+	NPCs
+	
+	Item menu
+	
+	Trading
+	
+	Fighting???
+	
+	Think about overall game event flow
+		what is a scene?
+		what does trigger a scene?
+		can you replay scenes?
+		what happens if you leave and reenter a scene?
+			do scenes have states that are saved?
+		would be cool ig elements in a scene could be different, depending on whether you interacted with them
+			do they have a separate state?
+			
+	

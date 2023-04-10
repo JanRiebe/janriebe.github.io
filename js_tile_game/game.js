@@ -39,7 +39,7 @@ let maps = [
 [
   [1, 1, 3, 1, 1, 1],
   [1, 0, 3, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 1],
@@ -64,12 +64,31 @@ let maps = [
 ]
 ];
 
+function Portal(x, y, toX, toY, toMap)
+{
+	this.x=x;
+	this.y=y;
+	this.toX=toX;
+	this.toY=toY;
+	this.toMap=toMap;
+}
+/*
 let portals =[ {
 9:{4:1}
 },
 {
 1:{1:0}
 }
+]
+*/
+let portals = [
+[
+new Portal(4,9,4,9,1),
+new Portal(1,1,7,2,0)
+],
+[
+new Portal(1,1,1,2,0)
+],
 ]
 
 
@@ -139,7 +158,6 @@ document.addEventListener("keydown", function(event) {
 
 // Game loop
 function gameLoop() {
-ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 // Calculate elapsed time since last frame
   let currentTime = performance.now();
@@ -148,26 +166,7 @@ ctx.clearRect(0, 0, canvas.width, canvas.height);
   
   
 
-  // Draw map
-  for (let y = 0; y < maps[currentMap].length; y++) {
-    for (let x = 0; x < maps[currentMap][y].length; x++) {
-    /*
-      if (maps[currentMap][y][x] === 1) {
-        ctx.fillStyle = "black";
-      } else  if (maps[currentMap][y][x] < 0) {
-        ctx.fillStyle = "blue";
-      } else {
-        ctx.fillStyle = "white";
-      }
-      ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
-      */
-//      if(loadedTilesets === tilesets.length)
-      ctx.drawImage(tilesets[0],
-      			maps[currentMap][y][x]*tileSize, 0, tileSize, tileSize,      			
-      			x * tileSize + camera.x, y * tileSize + camera.y, tileSize+1, tileSize+1);
-      			
-    }
-  }
+  // ******************** updating positions ****************************
 
   // Update player position
   if (isMoving) {
@@ -189,32 +188,75 @@ ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   }
   
+  
+  // calculate triggers
+  let activePortals = portals[currentMap];
+  if(!isMoving)
+  {
+	  for(let i=0;i<activePortals.length;i++)
+	  {
+	    if(player.y === activePortals[i].y)
+	    {
+	    	if(player.x === activePortals[i].x)
+	    	{
+	    		currentMap = activePortals[i].toMap;
+	    		player.x = activePortals[i].toX;
+	    		player.y = activePortals[i].toY;
+	    		player.targetX = player.x;
+	    		player.targetY = player.y;
+	    		break;
+	    	}
+	    }
+	   }
+  }
+  
   // move camera
   camera.x = canvas.width/2 - player.x*tileSize - tileSize/2;
   camera.y = canvas.height/2 - player.y*tileSize - tileSize/2;
-  
-  
-  // calculate triggers
-  for(let i=0;i<portals.length;i++)
-  {
-    if(player.y in portals[i])
-    {
-    	if(player.x in portals[i][player.y])
-    	{
-    		currentMap = portals[i][player.y][player.x];
-    	}
-    }
     /*
     if (maps[currentMap][player.y][player.x] < 0) {
  	console.log("change");
         currentMap = -maps[currentMap][player.y][player.x]-1;
       }
       */
+  
+  
+  
+  // ******************** drawing ****************************
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // Draw map
+  for (let y = 0; y < maps[currentMap].length; y++) {
+    for (let x = 0; x < maps[currentMap][y].length; x++) {
+    /*
+      if (maps[currentMap][y][x] === 1) {
+        ctx.fillStyle = "black";
+      } else  if (maps[currentMap][y][x] < 0) {
+        ctx.fillStyle = "blue";
+      } else {
+        ctx.fillStyle = "white";
+      }
+      ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+      */
+//      if(loadedTilesets === tilesets.length)
+      ctx.drawImage(tilesets[0],
+      			maps[currentMap][y][x]*tileSize, 0, tileSize, tileSize,      			
+      			x * tileSize + camera.x, y * tileSize + camera.y, tileSize+1, tileSize+1);
+      			
+    }
+  }
+
+  // draw triggers
+  for(let i=0;i<activePortals.length;i++)
+  {
+	  ctx.fillStyle = "blue";
+	  ctx.fillRect(activePortals[i].x * tileSize + camera.x, activePortals[i].y * tileSize + camera.y, tileSize, tileSize);
   }
 
   // Draw player
   ctx.fillStyle = "red";
   ctx.fillRect(player.x * tileSize + camera.x, player.y * tileSize + camera.y, tileSize, tileSize);
+  
   
   /*
   const frameIndex = animation.frames[currentFrame];
