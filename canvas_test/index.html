@@ -12,8 +12,8 @@
   <canvas id="canvas"></canvas>
   <script>
     const canvas = document.getElementById('canvas');
-    canvas.width = document.body.clientWidth;
-    canvas.height = document.body.clientHeight;
+    canvas.width = document.body.offsetWidth;
+    canvas.height = document.body.offsetHeight;
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = true;
     ctx.translate(0.5, 0.5);
@@ -157,8 +157,8 @@
         }
         */
         
-        const widthFactor = 1;
-        const minWidth = 5;
+        const widthFactor = 2;
+        const minWidth = 0.5;
         let lastNormal = {x:0,y:0};
 	ctx.beginPath();
 	  ctx.moveTo(currentPath[0].x, currentPath[0].y);
