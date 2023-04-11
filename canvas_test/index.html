@@ -1,24 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, height=device-height,  initial-scale=1.0, user-scalable=no;user-scalable=0;"/>
   <title>Stylus Input to Canvas</title>
-  <style>
-	* { margin: 0; padding: 0;}
-
-	body, html { height:100%; }
-
-	#fcanvas {
-	    position:absolute;
-	    width:100%;
-	    height:100%;
-	}
-  </style>
+	<link rel="stylesheet" href="style.css">
 
 </head>
 <body>
+<p id=type>---</p>
 <p id=pensize>---</p>
-  <canvas id="canvas" width="500" height="500"></canvas>
+<p id=len>---</p>
+  <canvas id="canvas" width="200" height="200"></canvas>
   <script>
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -33,9 +25,9 @@
     //canvas.addEventListener('touchstart', startDrawingTouch);
     //canvas.addEventListener('touchmove' , drawTouch);
     //canvas.addEventListener('touchup' , endDrawingTouch);
-    canvas.addEventListener('pointerdown' , startDrawingTouch);
+    //canvas.addEventListener('pointerdown' , startDrawingTouch);
     canvas.addEventListener('pointermove' , drawTouch);
-    canvas.addEventListener('pointerup' , endDrawingTouch);
+    //canvas.addEventListener('pointerup' , endDrawingTouch);
     
     
     function processPointer(event)
@@ -107,12 +99,17 @@
         };
      //    if (event.targetTouches.length>0)
           document.getElementById("pensize").innerHTML = event.pressure;
+          document.getElementById("len").innerHTML = currentPath.length;
+          document.getElementById("type").innerHTML = event.pointerType;
       //   else
        //   document.getElementById("pensize").innerHTML = "no target touch radius -> no evaluation of pressure";
        if(event.pressure > 0.001)
        {
         currentPath.push(point);
         drawPath();
+        }
+        else{
+        currentPath=[];
         }
      // }
     }
@@ -141,7 +138,7 @@
     }
     */
     function drawPath() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+     // ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (currentPath.length > 1) {
         ctx.strokeStyle = currentColor;
         ctx.fillStyle = currentColor;
