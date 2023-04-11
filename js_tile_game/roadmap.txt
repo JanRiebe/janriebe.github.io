@@ -17,6 +17,20 @@ Features:
 				character d says f
 			else
 				character d says g
+				
+				
+Architecture:
+	Events
+		Events can be triggered
+		They change the game state
+			Player location
+			active map
+			dialog
+			NPC actions
+			player inventory changes
+			global game flag changes
+		They can trigger other events based on conditions
+		
 
 
 TODO:
@@ -30,6 +44,7 @@ TODO:
 	
 	Separate collision
 	Triggers
+	perhaps make maps into objects
 	
 	Dialog
 	

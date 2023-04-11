@@ -32,6 +32,20 @@ for(let i=0;i<tilepaths.length;i++)
 	};
 };
 
+let characterSpritesheet = new Image();
+characterSpritesheet.src= "./sprites/global.png";
+let characterLoaded = false;
+characterSpritesheet.onload = function() {
+  characterLoaded = true;
+};
+let characterAnimationFrame = 0.0;
+let framesIdle = [[0, 0]];
+let framesUp = [[0, 0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0]];
+let framesDown = [[0, 0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0]];
+let framesLeft = [[0, 0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0]];
+let framesRight = [[0, 0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0]];
+
+
 
 
 // Define game variables
@@ -51,6 +65,33 @@ let maps = [
 ],
 [
   [1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 1],
+  [1, 0, 3, 3, 0, 1],
+  [1, 0, 3, 3, 0, 1],
+  [1, 0, 3, 3, 0, 1],
+  [1, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 1],
+  [1, 1, 3, 0, 3, 1],
+  [1, 3, 1, 0, 3, 1],
+  [1, 1, 1, 0, 1, 1],
+  [1, 1, 1, 0, 1, 1],
+  [1, 1, 1, 0, 1, 1],
+  [1, 1, 1, 0, 1, 1],
+  [1, 1, 1, 0, 1, 1],
+  [1, 1, 1, 0, 1, 1]
+],
+[ 
+  [1, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 1],
+  [1, 1, 3, 0, 3, 1],
+  [1, 3, 1, 0, 3, 1],
+  [1, 1, 1, 0, 1, 1],
+  [1, 1, 1, 0, 1, 1],
+  [1, 1, 1, 0, 1, 1],
+  [1, 1, 1, 0, 1, 1],
   [1, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 1],
@@ -87,9 +128,30 @@ new Portal(4,9,4,9,1),
 new Portal(1,1,7,2,0)
 ],
 [
-new Portal(1,1,1,2,0)
+new Portal(1,1,1,2,0),
+new Portal(3,13,3,5,2)
+],
+[
+new Portal(3,4,3,12,1)
 ],
 ]
+
+
+
+function MapEvent(x, y, map, trigger)
+{
+	this.x=x;
+	this.y=y;
+	this.trigger = trigger;
+}
+let mapEvents = [
+[
+	new MapEvent(3,3,1,"map event triggered")
+],
+[],
+[]
+]
+
 
 
 var currentMap = 0;
@@ -108,9 +170,10 @@ let player = {
   speed: 10
 };
 let isMoving = false;
+let justEnteredTile = true;
 let lastFrameTime = performance.now();
 
-
+/*
 const animations = [
   { name: 'idle', frames: [0], speed: 1 },
   { name: 'walk', frames: [1, 2, 3, 4], speed: 0.2 },
@@ -119,6 +182,12 @@ const animations = [
 const spriteSheet = new Image();
 spriteSheet.src = 'path/to/sprite-sheet.png';
 const sprite = new Image();
+*/
+
+
+
+
+let transitionAnimation = 0.0;
 
 
 // Handle keyboard input
@@ -163,7 +232,7 @@ function gameLoop() {
   let currentTime = performance.now();
   let deltaTime = currentTime - lastFrameTime;
   lastFrameTime = currentTime;
-  
+   
   
 
   // ******************** updating positions ****************************
@@ -185,13 +254,14 @@ function gameLoop() {
       player.x = player.targetX;
       player.y = player.targetY;
       isMoving = false;
+      justEnteredTile = true;
     }
   }
   
   
   // calculate triggers
   let activePortals = portals[currentMap];
-  if(!isMoving)
+  if(!isMoving && justEnteredTile)
   {
 	  for(let i=0;i<activePortals.length;i++)
 	  {
@@ -204,6 +274,24 @@ function gameLoop() {
 	    		player.y = activePortals[i].toY;
 	    		player.targetX = player.x;
 	    		player.targetY = player.y;
+	    		transitionAnimation = 0.0;
+	    		break;
+	    	}
+	    }
+	   }
+  }
+    let activeMapEvents = mapEvents[currentMap];
+  if(!isMoving && justEnteredTile)
+  {
+	  for(let i=0;i<activeMapEvents.length;i++)
+	  {
+	    if(player.y === activeMapEvents[i].y)
+	    {
+	    	if(player.x === activeMapEvents[i].x)
+	    	{
+	    		console.log(activeMapEvents[i].trigger);
+	    		// TODO use the trigger to look up other events to do
+	    		// There should be some primitiv events which just call js functions, manipulating data 
 	    		break;
 	    	}
 	    }
@@ -252,23 +340,52 @@ function gameLoop() {
 	  ctx.fillStyle = "blue";
 	  ctx.fillRect(activePortals[i].x * tileSize + camera.x, activePortals[i].y * tileSize + camera.y, tileSize, tileSize);
   }
+  for(let i=0;i<activeMapEvents.length;i++)
+  {
+	  ctx.fillStyle = "grey";
+	  ctx.fillRect(activeMapEvents[i].x * tileSize + camera.x, activeMapEvents[i].y * tileSize + camera.y, tileSize, tileSize);
+  }
 
   // Draw player
-  ctx.fillStyle = "red";
-  ctx.fillRect(player.x * tileSize + camera.x, player.y * tileSize + camera.y, tileSize, tileSize);
+  let frameToDraw = [0,0];
+  if(isMoving){
+	let dx = player.targetX - player.x;
+	let dy = player.targetY - player.y;
+	let animation = framesIdle;
+	if (dy > 0.1)
+		animation = framesUp;
+	else if (dy < -0.1)
+		animation = framesDown;
+	else if (dx > 0.1)
+		animation = framesRight;
+	else if (dx < -0.1)
+		animation = framesLeft;
+	
+	characterAnimationFrame += deltaTime/(24);
+	characterAnimationFrame %=animation.length;
+	frameToDraw = animation[Math.floor(characterAnimationFrame)];
+  }
+ // ctx.fillStyle = "red";
+//  ctx.fillRect(player.x * tileSize + camera.x, player.y * tileSize + camera.y, tileSize, tileSize);
+  if(characterLoaded)
+	ctx.drawImage(characterSpritesheet,
+      			frameToDraw[0]*tileSize/2, frameToDraw[1]*tileSize/2, tileSize/2, tileSize/2,      			
+      			player.x * tileSize + camera.x, player.y * tileSize + camera.y, tileSize, tileSize);
+  
+  // Draw transition animation
+  if(transitionAnimation < 3.14/2)
+  {
+  	
+ 	ctx.fillStyle = "rgba(255, 255, 255, " + Math.sin(3.14/2-transitionAnimation)+")";
+	ctx.fillRect(0,0,canvas.width,canvas.height);
+  	transitionAnimation += deltaTime/500;
+  }
   
   
-  /*
-  const frameIndex = animation.frames[currentFrame];
-  const x = (frameIndex % numFramesX) * tileSize;
-  const y = Math.floor(frameIndex / numFramesX) * tileSize;
   
-  sprite.src = 'path/to/sprite-sheet.png';
-  sprite.onload = function() {
-    //ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(sprite, x, y, tileSize, tileSize, playerX, playerY, tileSize, tileSize);
-  };
-*/
+  // updating tile entering state
+	justEnteredTile = false;
+  
   // Request next frame
   requestAnimationFrame(gameLoop);
   
