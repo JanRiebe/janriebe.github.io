@@ -44,6 +44,8 @@ TODO:
 	
 	Separate collision
 	Triggers
+	
+	organize everything more neatly in separate functions and objects
 	perhaps make maps into objects
 	
 	Dialog

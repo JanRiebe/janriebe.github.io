@@ -9,6 +9,27 @@ function Map(background, foreground) {
   this.foreground = foreground;
 }
 
+class Tileset {
+  constructor(path, columns, rows) {
+    this.loaded = false;
+    this.columns = columns
+    this.rows =  rows    
+
+    this.img = new Image();
+    this.img.src = path;
+    this.img.onload = this._onLoaded();
+  }
+  _onLoaded(){
+    this.loaded = true;
+  };
+  getTile(index) {
+    if (index > this.columns*this.rows -1 )
+      index = this.columns*this.rows -1;
+    return [Math.floor(index%this.columns), Math.floor(index/this.columns)]
+  };
+}
+
+
 /*
 The tiles in tilesets are automatically sliced and given numbers in continuous order.
 
@@ -24,12 +45,15 @@ let tilesets =
 let loadedTilesets = 0;
 for(let i=0;i<tilepaths.length;i++)
 { 
+  tilesets.push(new Tileset(tilepaths[i], 4,4));
+  /*
 	img = new Image();
 	tilesets.push(img);
 	img.src= tilepaths[i];
 	img.onload = function() {
 	  loadedTilesets ++;
 	};
+  */
 };
 
 let characterSpritesheet = new Image();
@@ -51,17 +75,17 @@ let framesRight = [[0, 0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0]];
 // Define game variables
 let maps = [
 [
-  [1, 1, 3, 1, 1, 1],
-  [1, 0, 3, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 3, 1],
-  [1, 0, 3, 3, 3, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 1, 1, 1, 1, 1],
+  [1, 1, 28, 27, 26, 25],
+  [2, 0, 29, 0, 0, 24],
+  [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [4, 0, 30, 0, 0, 23],
+  [5, 0, 31, 0, 0, 22],
+  [6, 0, 32, 0, 40, 21],
+  [7, 0, 33, 0, 39, 20],
+  [8, 0, 34, 0, 38, 19],
+  [9, 0, 35, 36, 37, 18],
+  [10, 0, 0, 0, 0, 17],
+  [11, 12, 13, 14, 15, 16],
 ],
 [
   [1, 1, 1, 1, 1, 1],
@@ -316,21 +340,13 @@ function gameLoop() {
   // Draw map
   for (let y = 0; y < maps[currentMap].length; y++) {
     for (let x = 0; x < maps[currentMap][y].length; x++) {
-    /*
-      if (maps[currentMap][y][x] === 1) {
-        ctx.fillStyle = "black";
-      } else  if (maps[currentMap][y][x] < 0) {
-        ctx.fillStyle = "blue";
-      } else {
-        ctx.fillStyle = "white";
+      if( tilesets.length > 0 && tilesets[0].loaded)
+      {
+        let tilePos = tilesets[0].getTile(maps[currentMap][y][x]);
+        ctx.drawImage(tilesets[0].img,
+                tilePos[0]*tileSize, tilePos[1]*tileSize, tileSize, tileSize,      			
+                x * tileSize + camera.x, y * tileSize + camera.y, tileSize+1, tileSize+1);
       }
-      ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
-      */
-//      if(loadedTilesets === tilesets.length)
-      ctx.drawImage(tilesets[0],
-      			maps[currentMap][y][x]*tileSize, 0, tileSize, tileSize,      			
-      			x * tileSize + camera.x, y * tileSize + camera.y, tileSize+1, tileSize+1);
-      			
     }
   }
 
