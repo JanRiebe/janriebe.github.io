@@ -10,9 +10,11 @@
 <p id=type>---</p>
 <p id=pensize>---</p>
 <p id=len>---</p>
-  <canvas id="canvas" width="200" height="200"></canvas>
+  <canvas id="canvas"></canvas>
   <script>
     const canvas = document.getElementById('canvas');
+    canvas.width = document.body.clientWidth;
+    canvas.height = document.body.clientHeight;
     const ctx = canvas.getContext('2d');
     let currentPath = [];
     let currentColor = 'black';
@@ -160,18 +162,28 @@
           ctx.lineTo(currentPath[1].x+currentPath[1].pressure*widthFactor, currentPath[1].y+currentPath[1].pressure*widthFactor);
         for (let i = 2; i < currentPath.length; i++) {
           const point = currentPath[i];
-          const width = point.pressure * widthFactor;
+          const width = Math.sqrt(point.pressure) * widthFactor;
           //ctx.moveTo(currentPath[i-1].x+width, currentPath[i-1].y+width);
-          ctx.lineTo(point.x+width, point.y+width);
+          let dx = currentPath[i-1].x - point.x; 
+          let dy = currentPath[i-1].y - point.y
+          let len = Math.sqrt(dx*dx+dy*dy);
+          if(len===0) len = 1;
+          let normal = {x: -dy/len, y: dx/len};
+          ctx.lineTo(point.x+width*normal.x, point.y+width*normal.y);
         }
         const l = currentPath.length-1;
         //ctx.moveTo(currentPath[l].x+currentPath[l].pressure*widthFactor, currentPath[l].y+currentPath[l].pressure*widthFactor);
           ctx.lineTo(currentPath[l].x-currentPath[l].pressure*widthFactor, currentPath[l].y-currentPath[l].pressure*widthFactor);
         for (let i = currentPath.length-1; i > 1; i--) {
           const point = currentPath[i];
-          const width = point.pressure * widthFactor;
+          const width = Math.sqrt(point.pressure) * widthFactor;
           //ctx.moveTo(currentPath[i-1].x-width, currentPath[i-1].y-width);
-          ctx.lineTo(point.x-width, point.y-width);
+          let dx = currentPath[i-1].x - point.x; 
+          let dy = currentPath[i-1].y - point.y
+          let len = Math.sqrt(dx*dx+dy*dy);
+          if(len===0) len = 1;
+          let normal = {x: -dy/len, y: dx/len};
+          ctx.lineTo(point.x-width*normal.x, point.y-width*normal.y);
         }        
 	  //ctx.moveTo(currentPath[1].x-currentPath[1].pressure*widthFactor, currentPath[1].y-currentPath[1].pressure*widthFactor);
           ctx.lineTo(currentPath[0].x, currentPath[0].y);
