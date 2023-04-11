@@ -6,14 +6,11 @@
 
 </head>
 <body>
-<p id=type>---</p>
-<p id=pensize>---</p>
-<p id=len>---</p>
   <canvas id="canvas"></canvas>
   <script>
     const canvas = document.getElementById('canvas');
-    canvas.width = screen.width;
-    canvas.height = screen.height;
+    canvas.width = screen.width*1.2;
+    canvas.height = screen.height*1.2;
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = true;
     ctx.translate(0.5, 0.5);
@@ -35,7 +32,7 @@
     
     function processPointer(event)
     {
-    document.getElementById("pensize").innerHTML = event.pressure;
+//    document.getElementById("pensize").innerHTML = event.pressure;
     /*
     if (event.pressure === 0) {
       // No pressure
@@ -53,7 +50,7 @@
     function startDrawing(event) {
       if (event.button === 0  // left button
          || event.targetTouches[0].radiusX === 0) {
-          document.getElementById("pensize").innerHTML = "mousedraw";
+  //        document.getElementById("pensize").innerHTML = "mousedraw";
         currentPath = [];
         mouseIsDown = true;
       }
@@ -87,7 +84,7 @@
       //   if (event.targetTouches.length>0)
       //    document.getElementById("pensize").innerHTML = event.targetTouches[0].radiusX;
       //   else
-          document.getElementById("pensize").innerHTML = "pendown";
+  //        document.getElementById("pensize").innerHTML = "pendown";
         currentPath = [];
         penIsDown = true;
      // }
@@ -101,9 +98,9 @@
           pressure: event.pressure 
         };
      //    if (event.targetTouches.length>0)
-          document.getElementById("pensize").innerHTML = event.pressure;
-          document.getElementById("len").innerHTML = currentPath.length;
-          document.getElementById("type").innerHTML = event.pointerType;
+ //         document.getElementById("pensize").innerHTML = event.pressure;
+  //        document.getElementById("len").innerHTML = currentPath.length;
+  //        document.getElementById("type").innerHTML = event.pointerType;
       //   else
        //   document.getElementById("pensize").innerHTML = "no target touch radius -> no evaluation of pressure";
        if(event.pressure > 0.001)
@@ -119,7 +116,7 @@
     
     function endDrawingTouch(event) {
     //  if (event.targetTouches[0].radiusX === 0 || true) {
-	document.getElementById("pensize").innerHTML = "pen up";
+//	document.getElementById("pensize").innerHTML = "pen up";
         penIsDown = false;
         drawPath();
         //writePathToCanvas();
@@ -157,8 +154,8 @@
         }
         */
         
-        const widthFactor = 2;
-        const minWidth = 0.5;
+        const widthFactor = 1;
+        const minWidth = 0.1;
         let lastNormal = {x:0,y:0};
 	ctx.beginPath();
 	  ctx.moveTo(currentPath[0].x, currentPath[0].y);
