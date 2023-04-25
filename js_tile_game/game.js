@@ -63,12 +63,17 @@ characterSpritesheet.onload = function() {
   characterLoaded = true;
 };
 let characterAnimationFrame = 0.0;
-let framesIdle = [[0, 0]];
-let framesUp = [[0, 0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0]];
+let framesIdleUp = [[0, 1],[4,1]];
+let framesIdleDown = [[0, 0],[4,0]];
+let framesIdleLeft = [[0, 1],[4,1]];
+let framesIdleRight = [[0, 0],[4,0]];
+let framesUp = [[0, 1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[7,1],[8,1]];
 let framesDown = [[0, 0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0]];
-let framesLeft = [[0, 0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0]];
+let framesLeft = [[0, 1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[7,1],[8,1]];
 let framesRight = [[0, 0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0]];
-
+let animation = framesIdleUp;
+let nextAnimation = framesIdleUp;
+let frameToDraw = [0, 0];
 
 
 
@@ -177,6 +182,9 @@ let mapEvents = [
 ]
 
 
+var audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/examples/t-rex-roar.mp3');
+
+
 
 var currentMap = 0;
 
@@ -266,7 +274,6 @@ function gameLoop() {
     let dx = player.targetX - player.x;
     let dy = player.targetY - player.y;
     let dist = Math.sqrt(dx * dx + dy * dy);
-
     if (dist > 0) {
       let moveDist = Math.min(dist, player.speed * deltaTime / 1000);
       dx /= dist;
@@ -314,6 +321,7 @@ function gameLoop() {
 	    	if(player.x === activeMapEvents[i].x)
 	    	{
 	    		console.log(activeMapEvents[i].trigger);
+	    		audio.play();
 	    		// TODO use the trigger to look up other events to do
 	    		// There should be some primitiv events which just call js functions, manipulating data 
 	    		break;
@@ -363,28 +371,36 @@ function gameLoop() {
   }
 
   // Draw player
-  let frameToDraw = [0,0];
-  if(isMoving){
-	let dx = player.targetX - player.x;
-	let dy = player.targetY - player.y;
-	let animation = framesIdle;
-	if (dy > 0.1)
-		animation = framesUp;
-	else if (dy < -0.1)
-		animation = framesDown;
-	else if (dx > 0.1)
-		animation = framesRight;
-	else if (dx < -0.1)
-		animation = framesLeft;
-	
-	characterAnimationFrame += deltaTime/(24);
-	characterAnimationFrame %=animation.length;
-	frameToDraw = animation[Math.floor(characterAnimationFrame)];
+  if(isMoving){//FIXME isMoving is false when stopping, frame to draw should be dependent on the last direction
+    let dx = player.targetX - player.x;
+    let dy = player.targetY - player.y;
+    if (dy > 0){
+      animation = framesUp;
+      nextAnimation = framesIdleUp;
+    }
+    else if (dy < -0){
+      animation = framesDown;
+      nextAnimation = framesIdleDown;
+    }
+    else if (dx > 0){
+      animation = framesRight;
+      nextAnimation = framesIdleRight;
+    }
+    else if (dx < -0){
+      animation = framesLeft;
+      nextAnimation = framesIdleLeft;
+    }
   }
+  else
+    animation = nextAnimation;
+  characterAnimationFrame += deltaTime/(24);
+  characterAnimationFrame %=animation.length;
+  frameToDraw = animation[Math.floor(characterAnimationFrame)];
+  
  // ctx.fillStyle = "red";
 //  ctx.fillRect(player.x * tileSize + camera.x, player.y * tileSize + camera.y, tileSize, tileSize);
   if(characterLoaded)
-	ctx.drawImage(characterSpritesheet,
+	  ctx.drawImage(characterSpritesheet,
       			frameToDraw[0]*tileSize/2, frameToDraw[1]*tileSize/2, tileSize/2, tileSize/2,      			
       			player.x * tileSize + camera.x, player.y * tileSize + camera.y, tileSize, tileSize);
   

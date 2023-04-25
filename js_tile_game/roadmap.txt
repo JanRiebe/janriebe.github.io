@@ -34,10 +34,8 @@ Architecture:
 
 
 TODO:
-	Allow drawing tiles from second row of map
 	Allow drawing tiles from other maps
 	
-	Character drawing and animation
 	Also animation for tiles
 	
 	Background and foreground tiles
