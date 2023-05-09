@@ -8,7 +8,7 @@
     <p>Drive API Quickstart</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <p>v 2</p>
+    <p>v 3</p>
     <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
     <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
     <button id="save_button" onclick="save()">Save</button>
@@ -30,7 +30,7 @@
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      const SCOPES =  'https://www.googleapis.com/auth/drive.appdata'//'https://www.googleapis.com/auth/drive.metadata.readonly';
+      const SCOPES =  'https://www.googleapis.com/auth/drive.file'// 'https://www.googleapis.com/auth/drive.appdata'//'https://www.googleapis.com/auth/drive.metadata.readonly';
 
       let tokenClient;
       let gapiInited = false;
