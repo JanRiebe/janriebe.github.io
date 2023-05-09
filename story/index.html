@@ -186,7 +186,9 @@
       gapi.client.drive.files.list({
         q: query,
         fields: 'files(id)',
-        spaces: 'drive'
+        spaces: 'drive',
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true
       }).then(function(response) {
         if (response.result.files.length > 0) {
           var fileId = response.result.files[0].id;
