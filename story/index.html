@@ -8,10 +8,10 @@
     <p>Drive API Quickstart</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <p>v 1</p>
+    <p>v 2</p>
     <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
     <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
-    <button id="save_button" onclick="saveToDrive('testfile')">Save</button>
+    <button id="save_button" onclick="save()">Save</button>
 
     <pre id="content" style="white-space: pre-wrap;"></pre>
 
@@ -94,7 +94,7 @@
           document.getElementById('save_button').style.visibility = 'visible';
           document.getElementById('authorize_button').innerText = 'Refresh';
           await listFiles();
-          await loadFileFromDrive("testfile")
+          await load();
         };
 
         if (gapi.client.getToken() === null) {
@@ -148,44 +148,64 @@
         document.getElementById('content').innerText = output;
       }
 
-      function saveToDrive(file, filename) {
-        try{
-          gapi.client.load('drive', 'v3', function() {
-            var fileMetadata = {
-              'name': filename,
-              'appProperties': {
-              'Storyflow': 'true'
-            }
-            };
-            var media = {
-              mimeType: file.type,
-              body: file
-            };
-            gapi.client.drive.files.create({
-              resource: fileMetadata,
-              media: media,
-              fields: 'id'
-            }).then(function(response) {
-              console.log('File ID: ' + response.result.id);
-            });
-          });
-        }catch(err){
-          document.getElementById('content').innerText = err.message;
-        }
+      function save()
+      {
+        saveToDrive("testfile", "{this is a test}")
       }
 
-      function loadFileFromDrive(fileId, callback) {
-        var query = "trashed = false and appProperties has { key='myapp' and value='true' }";
-        gapi.client.drive.files.get({
-        fileId: fileId,
-        alt: 'media',
-        q: query
+      function load()
+      {
+        loadFileFromDrive("testfile", console.log);
+      }
+
+      function saveToDrive(filename, content) {
+        var fileMetadata = {
+          'name': filename,
+          'mimeType': 'text/plain',
+          'appProperties': {
+            'Storyflow': 'true'
+          }
+        };
+        var media = {
+          mimeType: 'text/plain',
+          body: content
+        };
+        gapi.client.drive.files.create({
+          resource: fileMetadata,
+          media: media,
+          fields: 'id'
         }).then(function(response) {
-        callback(response.body);
+          console.log('File ID: ' + response.result.id);
         }, function(error) {
-        console.error(error);
+          console.error(error);
         });
       }
+
+      function loadFileFromDrive(filename, callback) {
+      var query = "mimeType='text/plain' and trashed=false and name='" + filename + "'";
+      gapi.client.drive.files.list({
+        q: query,
+        fields: 'files(id)',
+        spaces: 'drive'
+      }).then(function(response) {
+        if (response.result.files.length > 0) {
+          var fileId = response.result.files[0].id;
+          gapi.client.drive.files.get({
+            fileId: fileId,
+            alt: 'media'
+          }).then(function(response) {
+            callback(response.body);
+          }, function(error) {
+            console.error(error);
+          });
+        } else {
+          console.log('File not found: ' + filename);
+        }
+      }, function(error) {
+        console.error(error);
+      });
+    }
+
 
     </script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
