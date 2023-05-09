@@ -10,6 +10,7 @@
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
     <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+    <button id="save_button" onclick="saveToDrive('testfile')">Save</button>
 
     <pre id="content" style="white-space: pre-wrap;"></pre>
 
@@ -28,7 +29,7 @@
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+      const SCOPES =  'https://www.googleapis.com/auth/drive.appdata'//'https://www.googleapis.com/auth/drive.metadata.readonly';
 
       let tokenClient;
       let gapiInited = false;
@@ -36,6 +37,7 @@
 
       document.getElementById('authorize_button').style.visibility = 'hidden';
       document.getElementById('signout_button').style.visibility = 'hidden';
+      document.getElementById('save_button').style.visibility = 'hidden';
 
       /**
        * Callback after api.js is loaded.
@@ -88,6 +90,7 @@
             throw (resp);
           }
           document.getElementById('signout_button').style.visibility = 'visible';
+          document.getElementById('save_button').style.visibility = 'visible';
           document.getElementById('authorize_button').innerText = 'Refresh';
           await listFiles();
         };
@@ -113,6 +116,7 @@
           document.getElementById('content').innerText = '';
           document.getElementById('authorize_button').innerText = 'Authorize';
           document.getElementById('signout_button').style.visibility = 'hidden';
+          document.getElementById('save_button').style.visibility = 'hidden';
         }
       }
 
@@ -141,6 +145,27 @@
             'Files:\n');
         document.getElementById('content').innerText = output;
       }
+
+      function saveToDrive(file, filename) {
+        gapi.client.load('drive', 'v3', function() {
+          var fileMetadata = {
+            'name': filename
+          };
+          var media = {
+            mimeType: file.type,
+            body: file
+          };
+          gapi.client.drive.files.create({
+            resource: fileMetadata,
+            media: media,
+            fields: 'id'
+          }).then(function(response) {
+            console.log('File ID: ' + response.result.id);
+          });
+        });
+      }
+
+
     </script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
