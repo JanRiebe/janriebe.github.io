@@ -93,6 +93,7 @@
           document.getElementById('save_button').style.visibility = 'visible';
           document.getElementById('authorize_button').innerText = 'Refresh';
           await listFiles();
+          await loadFileFromDrive("testfile")
         };
 
         if (gapi.client.getToken() === null) {
@@ -147,24 +148,43 @@
       }
 
       function saveToDrive(file, filename) {
-        gapi.client.load('drive', 'v3', function() {
-          var fileMetadata = {
-            'name': filename
-          };
-          var media = {
-            mimeType: file.type,
-            body: file
-          };
-          gapi.client.drive.files.create({
-            resource: fileMetadata,
-            media: media,
-            fields: 'id'
-          }).then(function(response) {
-            console.log('File ID: ' + response.result.id);
+        try{
+          gapi.client.load('drive', 'v3', function() {
+            var fileMetadata = {
+              'name': filename,
+              'appProperties': {
+              'Storyflow': 'true'
+            }
+            };
+            var media = {
+              mimeType: file.type,
+              body: file
+            };
+            gapi.client.drive.files.create({
+              resource: fileMetadata,
+              media: media,
+              fields: 'id'
+            }).then(function(response) {
+              console.log('File ID: ' + response.result.id);
+            });
           });
-        });
+        }catch(err){
+          document.getElementById('content').innerText = err.message;
+        }
       }
 
+      function loadFileFromDrive(fileId, callback) {
+        var query = "trashed = false and appProperties has { key='myapp' and value='true' }";
+        gapi.client.drive.files.get({
+        fileId: fileId,
+        alt: 'media',
+        q: query
+        }).then(function(response) {
+        callback(response.body);
+        }, function(error) {
+        console.error(error);
+        });
+      }
 
     </script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
