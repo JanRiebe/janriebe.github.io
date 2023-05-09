@@ -183,7 +183,7 @@
       }
 
       function loadFileFromDrive(filename, callback) {
-      var query = "mimeType='text/plain' and trashed=false and name='" + filename + "'";
+      var query = "name='" + filename + "'";
       gapi.client.drive.files.list({
         q: query,
         fields: 'files(id)',
