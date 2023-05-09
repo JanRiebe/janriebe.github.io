@@ -8,7 +8,7 @@
     <p>Drive API Quickstart</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <p>v 4</p>
+    <p>v 5</p>
     <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
     <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
     <button id="save_button" onclick="save()">Save</button>
@@ -159,7 +159,9 @@
       }
 
       function saveToDrive(filename, content) {
+        console.log("saveToDrive as "+filename);
         var fileMetadata = {
+          'title': filename,
           'name': filename,
           'mimeType': 'text/plain',
           'appProperties': {
@@ -167,7 +169,6 @@
           }
         };
         var media = {
-          mimeType: 'text/plain',
           body: content
         };
         gapi.client.drive.files.create({
