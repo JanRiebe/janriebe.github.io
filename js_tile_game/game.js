@@ -29,6 +29,34 @@ class Tileset {
   };
 }
 
+/*
+Abstracts animated tiles by having them accessible just as normal tiles.
+*/
+class AnimatedTileset
+{
+  /*
+  tileset: a tileset object
+  aimations: a list of lists of indices
+             where each entry of the outer list is
+             an animation for one tile
+             and each entry in the inner list an
+             index for a tile in the tileset
+             that is a frame of the animation
+  */
+  constructor(tileset, animations)
+  {
+    this.set = tileset;
+    this.animations = animations;
+    this.frame = 0;
+    this.loaded = tileset.loaded;
+    this.img = tileset.img;
+  }
+  getTile(index) {
+    let foo= this.set.getTile(this.animations[index][Math.floor(this.frame)%this.animations[index].length])
+    //console.log(Math.floor(this.frame)%this.animations.length);
+    return foo;
+  }
+}
 
 /*
 The tiles in tilesets are automatically sliced and given numbers in continuous order.
@@ -46,15 +74,8 @@ let loadedTilesets = 0;
 for(let i=0;i<tilepaths.length;i++)
 { 
   tilesets.push(new Tileset(tilepaths[i], 4,4));
-  /*
-	img = new Image();
-	tilesets.push(img);
-	img.src= tilepaths[i];
-	img.onload = function() {
-	  loadedTilesets ++;
-	};
-  */
 };
+tilesets.push(new AnimatedTileset(tilesets[0], [[1,1,2,3,4]]));
 
 let characterSpritesheet = new Image();
 characterSpritesheet.src= "./sprites/global.png";
@@ -82,7 +103,7 @@ let maps = [
 [
     // Background
   [
-    [1, 1, 28, 27, 26, 25],
+    [2000, 1, 28, 27, 26, 25],
     [2, 0, 29, 0, 0, 24],
     [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [4, 0, 30, 0, 0, 23],
@@ -399,6 +420,12 @@ function gameLoop() {
       */
   
   
+  // Updating tile set animations
+  for(let i=0;i<tilesets.length;i++)
+  {
+    tilesets[i].frame += deltaTime/(240); 
+  }
+
   
   // ******************** drawing ****************************
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -474,7 +501,7 @@ function gameLoop() {
   else
     animation = nextAnimation;
   characterAnimationFrame += deltaTime/(24);
-  characterAnimationFrame %=animation.length;
+  characterAnimationFrame %= animation.length;
   frameToDraw = animation[Math.floor(characterAnimationFrame)];
   
   if(characterLoaded)
