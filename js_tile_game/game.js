@@ -80,7 +80,7 @@ let frameToDraw = [0, 0];
 // Define game variables
 let maps = [
 [
-  [1, 1, 28, 27, 26, 25],
+  [1, 1001, 1028, 1027, 1026, 1025],
   [2, 0, 29, 0, 0, 24],
   [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [4, 0, 30, 0, 0, 23],
@@ -359,10 +359,13 @@ function gameLoop() {
   // Draw map
   for (let y = 0; y < maps[currentMap].length; y++) {
     for (let x = 0; x < maps[currentMap][y].length; x++) {
-      if( tilesets.length > 0 && tilesets[0].loaded)
+      let tileId = maps[currentMap][y][x];
+      let setId = Math.floor(tileId/1000);
+      tileId %= 1000;
+      if( tilesets.length > 0 && tilesets[setId].loaded)
       {
-        let tilePos = tilesets[0].getTile(maps[currentMap][y][x]);
-        ctx.drawImage(tilesets[0].img,
+        let tilePos = tilesets[setId].getTile(tileId);
+        ctx.drawImage(tilesets[setId].img,
                 tilePos[0]*tileSize, tilePos[1]*tileSize, tileSize, tileSize,      			
                 x * tileSize + camera.x, y * tileSize + camera.y, tileSize+1, tileSize+1);
       }
