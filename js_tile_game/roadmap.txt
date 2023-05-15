@@ -64,5 +64,7 @@ TODO:
 			do scenes have states that are saved?
 		would be cool ig elements in a scene could be different, depending on whether you interacted with them
 			do they have a separate state?
+
+	Wavefunction collapse
 			
 	

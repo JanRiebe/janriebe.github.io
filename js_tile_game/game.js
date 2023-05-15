@@ -216,6 +216,8 @@ spriteSheet.src = 'path/to/sprite-sheet.png';
 const sprite = new Image();
 */
 
+let dialogMessage = "";
+
 
 
 
@@ -224,6 +226,14 @@ let transitionAnimation = 0.0;
 
 // Handle keyboard input
 document.addEventListener("keydown", function(event) {
+
+  if(dialogMessage)
+  {
+    if(event.key=="Enter")
+      dialogMessage = "";
+    return;
+  }
+
   if (isMoving) {
     return;
   }
@@ -322,6 +332,7 @@ function gameLoop() {
 	    	{
 	    		console.log(activeMapEvents[i].trigger);
 	    		audio.play();
+          dialogMessage = activeMapEvents[i].trigger;
 	    		// TODO use the trigger to look up other events to do
 	    		// There should be some primitiv events which just call js functions, manipulating data 
 	    		break;
@@ -411,6 +422,16 @@ function gameLoop() {
  	ctx.fillStyle = "rgba(255, 255, 255, " + Math.sin(3.14/2-transitionAnimation)+")";
 	ctx.fillRect(0,0,canvas.width,canvas.height);
   	transitionAnimation += deltaTime/500;
+  }
+
+
+  // Draw dialog
+  if(dialogMessage){
+    ctx.fillStyle = "rgba(200, 200, 200, 255)";
+    ctx.fillRect(50, canvas.height-250, canvas.width-100, 200);
+    ctx.font = "42px serif";
+    ctx.fillStyle = "rgba(0, 0, 0, 255)";
+    ctx.fillText(dialogMessage, 70, canvas.height-200, 180);
   }
   
   
