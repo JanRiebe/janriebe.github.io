@@ -34,27 +34,18 @@ Architecture:
 
 
 TODO:
-	Allow drawing tiles from other maps
-	
+
 	Also animation for tiles
-	
-	Background and foreground tiles
-	
+		constant animations
+		animations when the player (or any character) enters
+		animations when the player (or any character) exits
+
+
 	Separate collision
 	Triggers
 	
 	organize everything more neatly in separate functions and objects
 	perhaps make maps into objects
-	
-	Dialog
-	
-	NPCs
-	
-	Item menu
-	
-	Trading
-	
-	Fighting???
 	
 	Think about overall game event flow
 		what is a scene?
@@ -64,6 +55,15 @@ TODO:
 			do scenes have states that are saved?
 		would be cool ig elements in a scene could be different, depending on whether you interacted with them
 			do they have a separate state?
+	
+	
+	NPCs
+	
+	Item menu
+	
+	Trading
+	
+	Fighting???
 
 	Wavefunction collapse
 			

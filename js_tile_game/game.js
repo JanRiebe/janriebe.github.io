@@ -80,57 +80,104 @@ let frameToDraw = [0, 0];
 // Define game variables
 let maps = [
 [
-  [1, 1001, 1028, 1027, 1026, 1025],
-  [2, 0, 29, 0, 0, 24],
-  [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [4, 0, 30, 0, 0, 23],
-  [5, 0, 31, 0, 0, 22],
-  [6, 0, 32, 0, 40, 21],
-  [7, 0, 33, 0, 39, 20],
-  [8, 0, 34, 0, 38, 19],
-  [9, 0, 35, 36, 37, 18],
-  [10, 0, 0, 0, 0, 17],
-  [11, 12, 13, 14, 15, 16],
+    // Background
+  [
+    [1, 1, 28, 27, 26, 25],
+    [2, 0, 29, 0, 0, 24],
+    [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [4, 0, 30, 0, 0, 23],
+    [5, 0, 31, 0, 0, 22],
+    [6, 0, 32, 0, 40, 21],
+    [7, 0, 33, 0, 39, 20],
+    [8, 0, 34, 0, 38, 19],
+    [9, 0, 35, 36, 37, 18],
+    [10, 0, 0, 0, 0, 17],
+    [11, 12, 13, 14, 15, 16],
+  ],
+  // Atop
+  [
+    [-1, 1001, 1028, 1027, 1026, 1025],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1]
+  ],
+// Foreground
+  [
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, 1001, -1, -1, -1, -1],
+    [-1, 1002, -1, -1, -1, -1],
+    [-1, 1003, -1, -1, -1, -1],
+    [-1, 1004, -1, -1, -1, -1],
+    [-1, 1005, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1]
+  ],
 ],
 [
-  [1, 1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 3, 3, 0, 1],
-  [1, 0, 3, 3, 0, 1],
-  [1, 0, 3, 3, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 1, 3, 0, 3, 1],
-  [1, 3, 1, 0, 3, 1],
-  [1, 1, 1, 0, 1, 1],
-  [1, 1, 1, 0, 1, 1],
-  [1, 1, 1, 0, 1, 1],
-  [1, 1, 1, 0, 1, 1],
-  [1, 1, 1, 0, 1, 1],
-  [1, 1, 1, 0, 1, 1]
+  [
+    [1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 3, 3, 0, 1],
+    [1, 0, 3, 3, 0, 1],
+    [1, 0, 3, 3, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 1, 3, 0, 3, 1],
+    [1, 3, 1, 0, 3, 1],
+    [1, 1, 1, 0, 1, 1],
+    [1, 1, 1, 0, 1, 1],
+    [1, 1, 1, 0, 1, 1],
+    [1, 1, 1, 0, 1, 1],
+    [1, 1, 1, 0, 1, 1],
+    [1, 1, 1, 0, 1, 1]
+  ],
+  [
+    [-1, -1, -1, -1, -1, -1]
+  ],
+  [
+    [-1, -1, -1, -1, -1, -1]
+  ],
 ],
-[ 
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 1, 3, 0, 3, 1],
-  [1, 3, 1, 0, 3, 1],
-  [1, 1, 1, 0, 1, 1],
-  [1, 1, 1, 0, 1, 1],
-  [1, 1, 1, 0, 1, 1],
-  [1, 1, 1, 0, 1, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 3, 3, 0, 1],
-  [1, 0, 3, 3, 0, 1],
-  [1, 0, 3, 3, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 1, 1, 1, 1, 1]
+[
+  [ 
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 1, 3, 0, 3, 1],
+    [1, 3, 1, 0, 3, 1],
+    [1, 1, 1, 0, 1, 1],
+    [1, 1, 1, 0, 1, 1],
+    [1, 1, 1, 0, 1, 1],
+    [1, 1, 1, 0, 1, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 3, 3, 0, 1],
+    [1, 0, 3, 3, 0, 1],
+    [1, 0, 3, 3, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1]
+  ],
+  [ 
+    [-1]
+  ],
+  [ 
+    [-1]
+  ]
 ]
 ];
 
@@ -240,25 +287,25 @@ document.addEventListener("keydown", function(event) {
 
   switch(event.keyCode) {
     case 37:
-      if (maps[currentMap][player.y][player.x - 1] < 1) {
+      if (maps[currentMap][0][player.y][player.x - 1] < 1) {
         player.targetX = player.x - 1;
         isMoving = true;
       }
       break;
     case 38:
-      if (maps[currentMap][player.y - 1][player.x] < 1) {
+      if (maps[currentMap][0][player.y - 1][player.x] < 1) {
         player.targetY = player.y - 1;
         isMoving = true;
       }
       break;
     case 39:
-      if (maps[currentMap][player.y][player.x + 1] < 1) {
+      if (maps[currentMap][0][player.y][player.x + 1] < 1) {
         player.targetX = player.x + 1;
         isMoving = true;
       }
       break;
     case 40:
-      if (maps[currentMap][player.y + 1][player.x] < 1) {
+      if (maps[currentMap][0][player.y + 1][player.x] < 1) {
         player.targetY = player.y + 1;
         isMoving = true;
       }
@@ -357,11 +404,30 @@ function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
   // Draw map
-  for (let y = 0; y < maps[currentMap].length; y++) {
-    for (let x = 0; x < maps[currentMap][y].length; x++) {
-      let tileId = maps[currentMap][y][x];
+  // Background
+  for (let y = 0; y < maps[currentMap][0].length; y++) {
+    for (let x = 0; x < maps[currentMap][0][y].length; x++) {
+      let tileId = maps[currentMap][0][y][x];
       let setId = Math.floor(tileId/1000);
       tileId %= 1000;
+      if(tileId < 0) continue;
+      if( tilesets.length > 0 && tilesets[setId].loaded)
+      {
+        let tilePos = tilesets[setId].getTile(tileId);
+        ctx.drawImage(tilesets[setId].img,
+                tilePos[0]*tileSize, tilePos[1]*tileSize, tileSize, tileSize,      			
+                x * tileSize + camera.x, y * tileSize + camera.y, tileSize+1, tileSize+1);
+      }
+    }
+  }
+
+  // Atop but behind the player
+  for (let y = 0; y < maps[currentMap][1].length; y++) {
+    for (let x = 0; x < maps[currentMap][1][y].length; x++) {
+      let tileId = maps[currentMap][1][y][x];
+      let setId = Math.floor(tileId/1000);
+      tileId %= 1000;
+      if(tileId < 0) continue;
       if( tilesets.length > 0 && tilesets[setId].loaded)
       {
         let tilePos = tilesets[setId].getTile(tileId);
@@ -411,13 +477,30 @@ function gameLoop() {
   characterAnimationFrame %=animation.length;
   frameToDraw = animation[Math.floor(characterAnimationFrame)];
   
- // ctx.fillStyle = "red";
-//  ctx.fillRect(player.x * tileSize + camera.x, player.y * tileSize + camera.y, tileSize, tileSize);
   if(characterLoaded)
 	  ctx.drawImage(characterSpritesheet,
       			frameToDraw[0]*tileSize/2, frameToDraw[1]*tileSize/2, tileSize/2, tileSize/2,      			
       			player.x * tileSize + camera.x, player.y * tileSize + camera.y, tileSize, tileSize);
   
+  
+  // Draw map that is in front of the player
+  for (let y = 0; y < maps[currentMap][2].length; y++) {
+    for (let x = 0; x < maps[currentMap][2][y].length; x++) {
+      let tileId = maps[currentMap][2][y][x];
+      let setId = Math.floor(tileId/1000);
+      tileId %= 1000;
+      if(tileId < 0) continue;
+      if( tilesets.length > 0 && tilesets[setId].loaded)
+      {
+        let tilePos = tilesets[setId].getTile(tileId);
+        ctx.drawImage(tilesets[setId].img,
+                tilePos[0]*tileSize, tilePos[1]*tileSize, tileSize, tileSize,      			
+                x * tileSize + camera.x, y * tileSize + camera.y, tileSize+1, tileSize+1);
+      }
+    }
+  }
+
+
   // Draw transition animation
   if(transitionAnimation < 3.14/2)
   {
