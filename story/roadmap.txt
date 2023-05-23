@@ -1,0 +1,30 @@
+##########   Design   ##########
+
+Workflows:
+    I add an idea >> I tag my ideas so that they are organised >> I add the idea content to my knowledgebase as a character, a place, a prop or whatever >> I mark the idea as implemented and it gets hidden.
+    I write into the blue and end up with a scene >> It automatically looks up all the characters in that scene and shows them to me >> I can write information from that scene that might be relevant later to the character >> I also tag beats from existing arcs
+    I plan a scene >> For each character I write down information >> I also mark which plot archs are affected and whether something is set up, payed off, a turn ect.
+    I plan an arch >> I write down a premise >> Then I lay out the beats of the arch and specify whether they are setup, payoff, question, answer or whatever
+
+
+
+Data
+    Ideas
+        A piece of text, with tags and links to dictionary entryies and scenes
+    Dictionary Entry
+        Character
+            A name, a description, other information, multiple motivations (and other texts) that are linked to scenes
+        Place
+            A name, a description, a map
+        Prop
+        Map
+            svg data, locations that are links to dictionary entries
+        Timeline
+            multiple versions of the same type of dictionary entry that changes over time, each entry can have links to scenes
+        ect.
+    Arc
+        A premise text and a list of beats
+    Beat
+        A piece of text with a beat type and relationships to other beats, such as question and answer, setup and payoff
+    Scene
+        A piece of text with a title/premise, a collection of links to ideas and dictionary entries, timeline steps
