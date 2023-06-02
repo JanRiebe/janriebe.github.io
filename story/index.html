@@ -160,13 +160,17 @@
 
       function save()
       {
-        saveToDrive("testfile", "{this is a test}")
+        //saveToDrive("testfile", "{this is a test}")
+        updateToDrive("testfile", "{this is a test}")
       }
 
       function load()
       {
         loadFileFromDrive("testfile", console.log);
       }
+      //TODO this doesn't work like this, I need to make it as a multipart upload
+    //https://stackoverflow.com/questions/42877817/file-upload-via-rest-v3-appears-as-untitled
+    //https://developers.google.com/drive/api/guides/manage-uploads#multipart
 
       function saveToDrive(filename, content) {
         console.log("saveToDrive as "+filename);
@@ -182,6 +186,30 @@
           body: content
         };
         gapi.client.drive.files.create({
+          resource: fileMetadata,
+          media: media,
+          fields: 'id'
+        }).then(function(response) {
+          console.log('File ID: ' + response.result.id);
+        }, function(error) {
+          console.error(error);
+        });
+      }
+
+      function updateToDrive(filename, content) {
+        console.log("saveToDrive as "+filename);
+        var fileMetadata = {
+          'title': filename,
+          'name': filename,
+          'mimeType': 'text/plain',
+          'appProperties': {
+            'Storyflow': 'true'
+          }
+        };
+        var media = {
+          body: content
+        };
+        gapi.client.drive.files.update({
           resource: fileMetadata,
           media: media,
           fields: 'id'
@@ -221,6 +249,8 @@
 
 
     </script>
+
+
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
   </body>
