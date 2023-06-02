@@ -8,7 +8,7 @@
     <p>Drive API Quickstart</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <p>v 5</p>
+    <p>v 6</p>
     <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
     <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
     <button id="save_button" onclick="save()">Save</button>
@@ -161,12 +161,12 @@
       function save()
       {
         //saveToDrive("testfile", "{this is a test}")
-        updateToDrive("testfile", "{this is a test}")
+        updateToDrive("testfile.txt", "{this is a test}")
       }
 
       function load()
       {
-        loadFileFromDrive("testfile", console.log);
+        loadFileFromDrive("testfile.txt", console.log);
       }
       //TODO this doesn't work like this, I need to make it as a multipart upload
     //https://stackoverflow.com/questions/42877817/file-upload-via-rest-v3-appears-as-untitled
@@ -197,7 +197,7 @@
       }
 
       function updateToDrive(filename, content) {
-        console.log("saveToDrive as "+filename);
+        console.log("updateToDrive as "+filename);
         var fileMetadata = {
           'title': filename,
           'name': filename,
