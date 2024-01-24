@@ -26,5 +26,30 @@ Data
         A premise text and a list of beats
     Beat
         A piece of text with a beat type and relationships to other beats, such as question and answer, setup and payoff
+        A beat belongs to one arc.
+    Plot beat
+        One or more arc beats which happen at the same story time
+        (For example can something at the same time resolve one arc and start a new one.) 
+    Plot
+        A list of plot beats
     Scene
         A piece of text with a title/premise, a collection of links to ideas and dictionary entries, timeline steps
+
+
+    Wordcount
+        When writing I want to see the word count.
+        I want to set a daily goal and see on what days I wrote how much.
+        
+        
+TODO
+
+    Plot view
+        think about what layout would be good for plotting
+            plotting arcs
+            plotting scenes
+
+    writing view
+        Filter scene information using filter
+
+        Have the different views on different pages
+            This way I don't have to collapse things all the time

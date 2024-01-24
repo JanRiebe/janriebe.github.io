@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Special+Elite">
+    <style>
+        body {
+            font-family: "Special Elite", sans-serif;
+        }
+
+        .no-scroll {
+            height:100%;
+            overflow: hidden;
+        }
+        .scroll{
+            max-height: 95vh;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+        }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="./index.html">My writing project</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Ideas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#plot-view" data-toggle="collapse">Plot</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#writing-view" data-toggle="collapse">Writing</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  World
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Characters</a></li>
+                  <li><a class="dropdown-item" href="#">Places</a></li>
+                  <li><a class="dropdown-item" href="#">Objects</a></li>
+                  <li><a class="dropdown-item" href="#">Cultures</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
+              
+                <li>
+        
+                    <input type="file" id="fileinput" onchange="loadStoryFile()">   </input>
+            
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+
+
+
+
+
+      <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+        <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (dark)">
+          <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
+          <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+        </button>
+        <ul id="scene-info-list" class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text" style="">
+          <li>
+            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+              <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#sun-fill"></use></svg>
+              Light
+              <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="dark" aria-pressed="true">
+              <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
+              Dark
+              <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+              <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#circle-half"></use></svg>
+              Auto
+              <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+            </button>
+          </li>
+          
+        </ul>
+      </div>
+
+
+      <div class="container-fluid text-center collapse" id="plot-view">
+        <div class="row ">
+
+            <div class="col scroll">
+                <h1>Beats</h1>
+                <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary" style="width: 380px;">
+                    <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+                      <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                      <span class="fs-5 fw-semibold">List group</span>
+                    </a>
+                    <div class="list-group list-group-flush border-bottom scrollarea">
+                      <a href="#" class="list-group-item list-group-item-action active py-3 lh-sm" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small>Wed</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small class="text-body-secondary">Tues</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small class="text-body-secondary">Mon</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                
+                      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small class="text-body-secondary">Wed</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small class="text-body-secondary">Tues</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small class="text-body-secondary">Mon</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small class="text-body-secondary">Wed</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small class="text-body-secondary">Tues</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small class="text-body-secondary">Mon</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small class="text-body-secondary">Wed</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small class="text-body-secondary">Tues</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                      <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                          <strong class="mb-1">List group item heading</strong>
+                          <small class="text-body-secondary">Mon</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                      </a>
+                    </div>
+                  </div>
+            </div>
+        </div>
+      </div>
+        <div class="container-fluid text-center collapse" id="writing-view">
+            <div class="row ">
+                
+
+
+                <div class="col scroll">
+                    <h1>Ideas <button type="button" class="btn btn-light" onclick="addIdea()">+</button></h1>
+                    
+                    <div id="idea-container">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-text" contenteditable="true">
+                                    fsdfasdafds
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-6 scroll">
+                    <h1>Chapters</h1>
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Accordion Item #1
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                <div class="accordion-body" contenteditable="true">
+                                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Accordion Item #2
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Accordion Item #3
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+
+            <div class="col scroll">
+                <h1>Info</h1>
+                <div id="info-container">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Something about a character</h5>
+                            <p class="card-text">
+                                fsdfasdafds
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Something about a scene</h5>
+                            <p class="card-text">
+                                These things here always relate to the currently opened scene.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+      </div>
+
+
+      
+    
+    <script src="https://getbootstrap.com/docs/5.3/assets/js/color-modes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+
+        let test_content = {
+                                "ideas": [
+                                    {"text":"foo", "tags":["a", "b"]},
+                                    {"text":"baa", "tags":["a"]},
+                                    {"text":"args", "tags":["b"]}
+                                ],
+                                "chapters": [
+                                    {"summary": "Scene 1, stuff happens", "text": "bla bla bla", "tags": ["a", "c"]},
+                                    {"summary": "Scene 2, more stuff happens", "text": "bla bla bla", "tags": ["a", "c"]},
+                                ],
+                                "characters": [
+                                    {"name": "Jan"}
+                                ]
+                            } 
+
+        for(let i in test_content["ideas"])
+        {
+            let idea = test_content["ideas"][i];
+            addIdea(idea["text"]);
+        }
+
+
+        function addIdea(content=""){
+            let column = document.getElementById("idea-container");
+            
+            let card = document.createElement("div");
+            card.setAttribute("class", "card");
+
+            let text = document.createElement("p");
+            text.setAttribute("class", "card-text");
+            text.setAttribute("contenteditable", "true");
+            text.innerHTML = content;
+
+            let body = document.createElement("div");
+            body.setAttribute("class", "card-body");
+            
+            column.insertBefore(card, column.firstChild);
+            card.appendChild(body);
+            body.appendChild(text);
+
+            text.focus();
+        }
+
+
+        //TODO show additional content
+        function showInfo(content="")
+        {
+            let column = document.getElementById("info-container");
+            
+            let card = document.createElement("div");
+            card.setAttribute("class", "card");
+
+            let text = document.createElement("p");
+            text.setAttribute("class", "card-text");
+            //text.setAttribute("contenteditable", "true");
+            text.innerHTML = content;
+
+            let body = document.createElement("div");
+            body.setAttribute("class", "card-body");
+            
+            column.appendChild(card);
+            card.appendChild(body);
+            body.appendChild(text);
+
+            //text.focus();
+        }
+
+
+        /*
+        TODO this should be added when the element gets created
+        */
+        var myCollapsible = document.getElementById('collapseOne')
+        myCollapsible.addEventListener('hidden.bs.collapse', function () {
+            console.log("Hidden")
+        });
+        myCollapsible.addEventListener('shown.bs.collapse', function () {
+            console.log("Shown")
+            let text = myCollapsible.innerText;
+            focusScene(text);
+        });
+
+        function focusScene(text){
+            console.log(text);
+
+            for(let i in test_content["characters"])
+            {
+                let character = test_content["characters"][i];
+                let name = character["name"];
+                if(text.indexOf(name) >= 0) {                
+                    showInfo(name);
+                }
+            }
+        }
+
+    </script>
+
+
+<div class="container">
+    <h2>Filterable List</h2>
+    <p>Type something in the input field to search the list for specific items:</p>  
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <br>
+    <ul class="list-group" id="myList">
+      <li class="list-group-item">First item</li>
+      <li class="list-group-item">Second item</li>
+      <li class="list-group-item">Third item</li>
+      <li class="list-group-item">Fourth</li>
+    </ul>  
+  </div>
+  <script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myList li").filter(function() {
+            console.log($(this).text())
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+    </script>
+
+
+  </body>
+</html>

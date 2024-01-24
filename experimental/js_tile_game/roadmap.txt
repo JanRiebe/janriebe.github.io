@@ -36,7 +36,6 @@ Architecture:
 TODO:
 
 	Also animation for tiles
-		constant animations
 		animations when the player (or any character) enters
 		animations when the player (or any character) exits
 
@@ -64,6 +63,9 @@ TODO:
 	Trading
 	
 	Fighting???
+
+	Touch input
+		walk where you click if there is a path
 
 	Wavefunction collapse
 			

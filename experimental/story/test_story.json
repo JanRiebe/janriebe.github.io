@@ -1,0 +1,11 @@
+{
+    "ideas": [
+        {"text":"foo", "tags":["a", "b"]},
+        {"text":"baa", "tags":["a"]},
+        {"text":"args", "tags":["b"]}
+    ],
+    "chapters": [
+        {"summary": "Scene 1, stuff happens", "text": "bla bla bla", "tags": ["a", "c"]},
+        {"summary": "Scene 2, more stuff happens", "text": "bla bla bla", "tags": ["a", "c"]},
+    ]
+}

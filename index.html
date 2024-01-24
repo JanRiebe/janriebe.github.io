@@ -1,248 +1,207 @@
 <!DOCTYPE html>
-<html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''>
-<head>
-	<meta charset='utf-8' />
-	<meta name='viewport' content='width=device-width, user-scalable=no' />
-	<title>Webpage</title>
-	<style type='text/css'>
-
-		body {
-			touch-action: none;
-			margin: 0;
-			border: 0 none;
-			padding: 0;
-			text-align: center;
-			background-color: black;
-		}
-
-		#canvas {
-			display: block;
-			margin: 0;
-			color: white;
-		}
-
-		#canvas:focus {
-			outline: none;
-		}
-
-		.godot {
-			font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
-			color: #e0e0e0;
-			background-color: #3b3943;
-			background-image: linear-gradient(to bottom, #403e48, #35333c);
-			border: 1px solid #45434e;
-			box-shadow: 0 0 1px 1px #2f2d35;
-		}
-
-
-		/* Status display
-		 * ============== */
-
-		#status {
-			position: absolute;
-			left: 0;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			/* don't consume click events - make children visible explicitly */
-			visibility: hidden;
-		}
-
-		#status-progress {
-			width: 366px;
-			height: 7px;
-			background-color: #38363A;
-			border: 1px solid #444246;
-			padding: 1px;
-			box-shadow: 0 0 2px 1px #1B1C22;
-			border-radius: 2px;
-			visibility: visible;
-		}
-
-		@media only screen and (orientation:portrait) {
-			#status-progress {
-				width: 61.8%;
-			}
-		}
-
-		#status-progress-inner {
-			height: 100%;
-			width: 0;
-			box-sizing: border-box;
-			transition: width 0.5s linear;
-			background-color: #202020;
-			border: 1px solid #222223;
-			box-shadow: 0 0 1px 1px #27282E;
-			border-radius: 3px;
-		}
-
-		#status-indeterminate {
-			height: 42px;
-			visibility: visible;
-			position: relative;
-		}
-
-		#status-indeterminate > div {
-			width: 4.5px;
-			height: 0;
-			border-style: solid;
-			border-width: 9px 3px 0 3px;
-			border-color: #2b2b2b transparent transparent transparent;
-			transform-origin: center 21px;
-			position: absolute;
-		}
-
-		#status-indeterminate > div:nth-child(1) { transform: rotate( 22.5deg); }
-		#status-indeterminate > div:nth-child(2) { transform: rotate( 67.5deg); }
-		#status-indeterminate > div:nth-child(3) { transform: rotate(112.5deg); }
-		#status-indeterminate > div:nth-child(4) { transform: rotate(157.5deg); }
-		#status-indeterminate > div:nth-child(5) { transform: rotate(202.5deg); }
-		#status-indeterminate > div:nth-child(6) { transform: rotate(247.5deg); }
-		#status-indeterminate > div:nth-child(7) { transform: rotate(292.5deg); }
-		#status-indeterminate > div:nth-child(8) { transform: rotate(337.5deg); }
-
-		#status-notice {
-			margin: 0 100px;
-			line-height: 1.3;
-			visibility: visible;
-			padding: 4px 6px;
-			visibility: visible;
-		}
-	</style>
-<link id='-gd-engine-icon' rel='icon' type='image/png' href='index.icon.png' />
-<link rel='apple-touch-icon' href='index.apple-touch-icon.png'/>
-
-</head>
-<body>
-	<canvas id='canvas'>
-		HTML5 canvas appears to be unsupported in the current browser.<br />
-		Please try updating or use a different browser.
-	</canvas>
-	<div id='status'>
-		<div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
-		<div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-		</div>
-		<div id='status-notice' class='godot' style='display: none;'></div>
-	</div>
-
-	<script type='text/javascript' src='index.js'></script>
-	<script type='text/javascript'>//<![CDATA[
-
-		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":7344,"index.wasm":17860295},"focusCanvas":true,"gdnativeLibs":[]};
-		var engine = new Engine(GODOT_CONFIG);
-
-		(function() {
-			const INDETERMINATE_STATUS_STEP_MS = 100;
-			var statusProgress = document.getElementById('status-progress');
-			var statusProgressInner = document.getElementById('status-progress-inner');
-			var statusIndeterminate = document.getElementById('status-indeterminate');
-			var statusNotice = document.getElementById('status-notice');
-
-			var initializing = true;
-			var statusMode = 'hidden';
-
-			var animationCallbacks = [];
-			function animate(time) {
-				animationCallbacks.forEach(callback => callback(time));
-				requestAnimationFrame(animate);
-			}
-			requestAnimationFrame(animate);
-
-			function setStatusMode(mode) {
-
-				if (statusMode === mode || !initializing)
-					return;
-				[statusProgress, statusIndeterminate, statusNotice].forEach(elem => {
-					elem.style.display = 'none';
-				});
-				animationCallbacks = animationCallbacks.filter(function(value) {
-					return (value != animateStatusIndeterminate);
-				});
-				switch (mode) {
-					case 'progress':
-						statusProgress.style.display = 'block';
-						break;
-					case 'indeterminate':
-						statusIndeterminate.style.display = 'block';
-						animationCallbacks.push(animateStatusIndeterminate);
-						break;
-					case 'notice':
-						statusNotice.style.display = 'block';
-						break;
-					case 'hidden':
-						break;
-					default:
-						throw new Error('Invalid status mode');
-				}
-				statusMode = mode;
-			}
-
-			function animateStatusIndeterminate(ms) {
-				var i = Math.floor(ms / INDETERMINATE_STATUS_STEP_MS % 8);
-				if (statusIndeterminate.children[i].style.borderTopColor == '') {
-					Array.prototype.slice.call(statusIndeterminate.children).forEach(child => {
-						child.style.borderTopColor = '';
-					});
-					statusIndeterminate.children[i].style.borderTopColor = '#dfdfdf';
-				}
-			}
-
-			function setStatusNotice(text) {
-				while (statusNotice.lastChild) {
-					statusNotice.removeChild(statusNotice.lastChild);
-				}
-				var lines = text.split('\n');
-				lines.forEach((line) => {
-					statusNotice.appendChild(document.createTextNode(line));
-					statusNotice.appendChild(document.createElement('br'));
-				});
-			};
-
-			function displayFailureNotice(err) {
-				var msg = err.message || err;
-				console.error(msg);
-				setStatusNotice(msg);
-				setStatusMode('notice');
-				initializing = false;
-			};
-
-			if (!Engine.isWebGLAvailable()) {
-				displayFailureNotice('WebGL not available');
-			} else {
-				setStatusMode('indeterminate');
-				engine.startGame({
-					'onProgress': function (current, total) {
-						if (total > 0) {
-							statusProgressInner.style.width = current/total * 100 + '%';
-							setStatusMode('progress');
-							if (current === total) {
-								// wait for progress bar animation
-								setTimeout(() => {
-									setStatusMode('indeterminate');
-								}, 500);
-							}
-						} else {
-							setStatusMode('indeterminate');
-						}
-					},
-				}).then(() => {
-					setStatusMode('hidden');
-					initializing = false;
-				}, displayFailureNotice);
-			}
-		})();
-	//]]></script>
-</body>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Jan Riebe</title>
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                <span class="d-block d-lg-none">Jan Riebe</span>
+                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/profile.jpeg" alt="..." /></span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#experience">Experience</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">Education</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Interests</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Page Content-->
+        <div class="container-fluid p-0">
+            <!-- About-->
+            <section class="resume-section" id="about">
+                <div class="resume-section-content">
+                    <h1 class="mb-0">
+                        Riebe
+                        <span class="text-primary">Jan</span>
+                    </h1>
+                    <div class="subheading mb-5">
+                        <a href="mailto:j_riebe@yahoo.de">j_riebe@yahoo.de</a>
+                    </div>
+                    <p class="lead mb-5">I develop games and game pipelines</p>
+                    <div class="social-icons">
+                        <a class="social-icon" href="https://www.linkedin.com/in/jan-riebe-5748995b" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="social-icon" href="https://github.com/JanRiebe" target="_blank"><i class="fab fa-github"></i></a>
+                        <a class="social-icon" href="https://janriebe.itch.io/" target="_blank"><i class="fab fa-itch-io"></i></a>
+                        <a class="social-icon" href="https://janriebe.wordpress.com" target="_blank"><i class="fab fa-wordpress"></i></a>
+                    </div>
+                </div>
+            </section>
+            <hr class="m-0" />
+            <!-- Experience-->
+            <section class="resume-section" id="experience">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Experience</h2>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Realtime  Developer</h3>
+                            <div class="subheading mb-3">Axis Animation</div>
+                            <p>Developing and maintaining animation pipelines for Unreal Engine, Maya and Houdini.</p>
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary">February 2021 - Present</span></div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Technical Artist</h3>
+                            <div class="subheading mb-3">Axis Animation</div>
+                            <p>Developing and maintaining animation pipelines for Unreal Engine, Maya and Houdini.</p>
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary">September 2019 - February 2021</span></div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Junior R&D Developer </h3>
+                            <div class="subheading mb-3">Axis Animation</div>
+                            <p>Developing tools that integrate with the sudios animation pipeline.</p>
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary">April 2019 - September 2019</span></div>
+                    </div>
+                    
+                </div>
+            </section>
+            <hr class="m-0" />
+            <!-- Education-->
+            <section class="resume-section" id="education">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Education</h2>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Eberhard Karls Universität Tübingen</h3>
+                            <div class="subheading mb-3">Master of Science</div>
+                            <div>Medieninformatik</div>
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary">2021 - Present</span></div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Glasgow Caledonian University </h3>
+                            <div>Computer Game Software Development</div>
+                            <div><br></div>
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary">2018 - 2019</span></div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Hochschule der Medien Stuttgart </h3>
+                            <div class="subheading mb-3">Bachelor of Engineering</div>
+                            <div>Audiovisual Media</div>
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary">2011 - 2014</span></div>
+                    </div>
+                </div>
+            </section>
+            <hr class="m-0" />
+            <!-- Skills-->
+            <section class="resume-section" id="skills">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Skills</h2>
+                    <div class="subheading mb-3">Programming Languages</div>
+                    <ul class="fa-ul mb-0">
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Python
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            C++
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            C#
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Javascript
+                        </li>
+                        <br>
+                    </ul>
+                    <div class="subheading mb-3">Engines</div>
+                    <ul class="fa-ul mb-0">
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Unreal Engine
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Unity
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Godot
+                        </li>
+                        <br>
+                    </ul>
+                    <div class="subheading mb-3">Workflows</div>
+                    <ul class="fa-ul mb-0">
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Agile Development
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Git
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Perforce
+                        </li>
+                        <br>
+                    </ul>
+                    <div class="subheading mb-3">Other</div>
+                    <ul class="fa-ul mb-0">
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            PyTorch
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Blender
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <hr class="m-0" />
+            <!-- Interests-->
+            <section class="resume-section" id="interests">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Interests</h2>
+                    <p>Apart from being a developer, I enjoy being creative in other way as well as spending time outdoors.</p>
+                    <p class="mb-0">I write novels and short stories, sometimes paint and often experiment with forms of arts and crafts, lately t-shirt dying, wood burning and cyanotype photography.</p>
+                    <p class="mb-0">I love hiking or just going for a short walk somwhere where I can experience the beauty of nature.</p>
+                </div>
+            </section>
+            <hr class="m-0" />
+    </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
 </html>
-

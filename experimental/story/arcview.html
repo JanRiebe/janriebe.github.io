@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Special+Elite">
+    <style>
+        body {
+            font-family: "Special Elite", sans-serif;
+        }
+
+        .no-scroll {
+            height:100%;
+            overflow: hidden;
+        }
+        .scroll{
+            max-height: 95vh;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+        }
+
+   
+        input{
+         
+     background-color: #fff;
+     border-width: 0;
+     color: black;
+        }
+
+ .flex {
+     -webkit-box-flex: 1;
+     -ms-flex: 1 1 auto;
+     flex: 1 1 auto
+ }
+
+ @media (max-width:991.98px) {
+     .padding {
+         padding: 1.5rem
+     }
+ }
+
+ @media (max-width:767.98px) {
+     .padding {
+         padding: 1rem
+     }
+ }
+
+ .padding {
+     padding: 5rem
+ }
+
+ .card {
+     background: #fff;
+     border-width: 0;
+     border-radius: .25rem;
+     box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
+     margin-bottom: 1.5rem
+ }
+
+ .card {
+     position: relative;
+     display: flex;
+     flex-direction: column;
+     min-width: 0;
+     word-wrap: break-word;
+     background-color: #fff;
+     background-clip: border-box;
+     border: 1px solid rgba(19, 24, 44, .125);
+     border-radius: .25rem
+ }
+ 
+ .list-item {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word
+}
+
+.list-item.block .media {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0
+}
+
+.list-item.block .list-content {
+    padding: 1rem
+}
+
+.w-40 {
+    width: 40px!important;
+    height: 40px!important
+}
+
+.avatar {
+    position: relative;
+    line-height: 1;
+    border-radius: 500px;
+    white-space: nowrap;
+    font-weight: 700;
+    border-radius: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    border-radius: 500px;
+    box-shadow: 0 5px 10px 0 rgba(50, 50, 50, .15)
+}
+
+.avatar img {
+    border-radius: inherit;
+    width: 100%
+}
+
+.gd-primary {
+    color: #fff;
+    border: none;
+    background: #448bff linear-gradient(45deg, #448bff, #44e9ff)
+}
+
+.flex {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto
+}
+
+.text-color {
+    color: #5e676f
+}
+
+.text-sm {
+    font-size: .825rem
+}
+
+.h-1x {
+    height: 1.25rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical
+}
+
+.no-wrap {
+    white-space: nowrap
+}
+
+.list-row .list-item {
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: .75rem .625rem;
+}
+
+.list-item {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+}
+
+.list-row .list-item>* {
+    padding-left: .625rem;
+    padding-right: .625rem;
+}
+
+.dropdown {
+    position: relative;
+}
+
+a:focus, a:hover {
+    text-decoration: none;
+}
+
+list-item{
+    background:white;
+}
+
+    </style>
+    </head>
+  <body>
+
+
+
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="./index.html">My writing project</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Ideas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#plot-view" data-toggle="collapse">Plot</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#writing-view" data-toggle="collapse">Writing</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  World
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Characters</a></li>
+                  <li><a class="dropdown-item" href="#">Places</a></li>
+                  <li><a class="dropdown-item" href="#">Objects</a></li>
+                  <li><a class="dropdown-item" href="#">Cultures</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
+              
+                <li>
+        
+                    <input type="file" id="fileinput" onchange="loadStoryFile()">   </input>
+            
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+
+
+
+    
+    <script src="https://getbootstrap.com/docs/5.3/assets/js/color-modes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+
+    <script type="text/css" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+   
+    
+    
+    <script>
+
+        let test_content = {
+                                "arcs": {
+                                  "arc A": [
+                                    {
+                                      "text":"some beat a",
+                                      "type": "question"
+                                    },                                    
+                                    {
+                                      "text":"some beat b",
+                                      "type": "clarification"
+                                    },                                    
+                                    {
+                                      "text":"some beat b",
+                                      "type": "answer"
+                                    }
+                                  ],                                  
+                                  "arc B": [
+                                    {
+                                      "text":"some beat a",
+                                      "type": "question"
+                                    },                                    
+                                    {
+                                      "text":"some beat b",
+                                      "type": "clarification"
+                                    },                                    
+                                    {
+                                      "text":"some beat b",
+                                      "type": "answer"
+                                    }
+                                  ]
+                                }
+                            } 
+
+        for(let i in test_content["arcs"])
+        {
+            let arc = test_content["arcs"][i];
+            addArc(arc.key);
+            for(let j in arc)
+            {
+              let beat = arc[j];
+              addBeat(beat["text"], beat["type"])
+            }
+        }
+
+
+/*
+As a user I want to:
+        Look at an individual arc and determine what the beats are.
+        See an overview of multiple arcs and define what beats happen in what order and which ones at the same time.
+            This is basically a plot view
+               A plot beat is a container for multiple arc beats
+                  So I want to see the plot beats filtered by arcs
+
+        I also want to work rough to detailed.
+          For that I want to nest beats within each other.
+            ???
+            maybe that would be cool
+         alternative: I group beats to scenes and the group displays all the label of the contained beats
+
+
+You can see as many arcs as you want at the same time.
+You see the beats of arcs interwoven together into one column. If two arcs happen at once, you see them side by side.
+You can grab beats and move them up and down or on top of another beat to place them.
+
+*/
+
+        function addArc(name)
+        {
+//TODO add a column representing an arc
+        }
+
+        function addBeat(content, type)
+        {
+//TODO add a cell that is representing a beat
+        }
+
+
+        function addIdea(content=""){
+            let column = document.getElementById("idea-container");
+            
+            let card = document.createElement("div");
+            card.setAttribute("class", "card");
+
+            let text = document.createElement("p");
+            text.setAttribute("class", "card-text");
+            text.setAttribute("contenteditable", "true");
+            text.innerHTML = content;
+
+            let body = document.createElement("div");
+            body.setAttribute("class", "card-body");
+            
+            column.insertBefore(card, column.firstChild);
+            card.appendChild(body);
+            body.appendChild(text);
+
+            text.focus();
+        }
+
+
+        //TODO show additional content
+        function showInfo(content="")
+        {
+            let column = document.getElementById("info-container");
+            
+            let card = document.createElement("div");
+            card.setAttribute("class", "card");
+
+            let text = document.createElement("p");
+            text.setAttribute("class", "card-text");
+            //text.setAttribute("contenteditable", "true");
+            text.innerHTML = content;
+
+            let body = document.createElement("div");
+            body.setAttribute("class", "card-body");
+            
+            column.appendChild(card);
+            card.appendChild(body);
+            body.appendChild(text);
+
+            //text.focus();
+        }
+
+
+
+    </script>
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+   $( function() {
+     $( "#sortable" ).sortable();
+     $( "#sortable" ).disableSelection();
+   } );
+  </script>
+
+<div contenteditable="true">foo</div>
+<div class="page-content page-container" id="page-content">
+   <div contenteditable="true">foo</div>
+   <div class="padding">
+      <div class="row">
+         <div contenteditable="true">foo</div>
+         <div class="col-sm-8">
+            <div contenteditable="true">foo</div>
+             
+           <div class="container-fluid d-flex justify-content-center">
+            <div contenteditable="true">foo</div>
+            <div class="list list-row card" id="sortable" data-sortable-id="0" aria-dropeffect="move">
+               <div contenteditable="true">foo not editable</div>
+               <div class="list-item" data-id="13" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false" style="">
+                  <div><a href="#" data-abc="true"><span class="w-40 avatar gd-primary">P</span></a></div>
+                  <div class="flex">
+                     <input type="text"></input>
+                     
+                  </div>
+                  
+                  <div class="no-wrap">
+                     <a href="#payoff-beat123">Setup</a>
+                  </div>
+               </div>
+
+               <div class="list-item" data-id="9" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false">
+                  <div><a href="#" data-abc="true"><span class="w-40 avatar gd-info"><img src="https://img.icons8.com/bubbles/24/000000/user.png" alt="."></span></a></div>
+                  <div class="flex">
+                     <a href="#" class="item-author text-color" data-abc="true">Steven Hmpire</a>
+                     <div class="item-except text-muted text-sm h-1x">Build a progressive web app using jQuery</div>
+                  </div>
+                  <div class="no-wrap">
+                     <div class="item-date text-muted text-sm d-none d-md-block">2 days ago</div>
+                  </div>
+                  <div>
+                     <div class="item-action dropdown">
+                        <a href="#" data-toggle="dropdown" class="text-muted" data-abc="true">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                              <circle cx="12" cy="12" r="1"></circle>
+                              <circle cx="12" cy="5" r="1"></circle>
+                              <circle cx="12" cy="19" r="1"></circle>
+                           </svg>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right bg-black" role="menu">
+                           <a class="dropdown-item" href="#" data-abc="true">See detail </a><a class="dropdown-item download" data-abc="true">Download </a><a class="dropdown-item edit" data-abc="true">Edit</a>
+                           <div class="dropdown-divider"></div>
+                           <a class="dropdown-item trash" data-abc="true">Delete item</a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="list-item" data-id="17" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false" style="">
+                  <div><a href="#" data-abc="true"><span class="w-40 avatar gd-warning">A</span></a></div>
+                  <div class="flex">
+                     <a href="#" class="item-author text-color" data-abc="true">Alan musk</a>
+                     <div class="item-except text-muted text-sm h-1x">it be advisable for me to think about business content?</div>
+                  </div>
+                  <div class="no-wrap">
+                     <div class="item-date text-muted text-sm d-none d-md-block">13/12 18</div>
+                  </div>
+                  <div>
+                     <div class="item-action dropdown">
+                        <a href="#" data-toggle="dropdown" class="text-muted" data-abc="true">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                              <circle cx="12" cy="12" r="1"></circle>
+                              <circle cx="12" cy="5" r="1"></circle>
+                              <circle cx="12" cy="19" r="1"></circle>
+                           </svg>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right bg-black" role="menu">
+                           <a class="dropdown-item" href="#" data-abc="true">See detail </a><a class="dropdown-item download" data-abc="true">Download </a><a class="dropdown-item edit" data-abc="true">Edit</a>
+                           <div class="dropdown-divider"></div>
+                           <a class="dropdown-item trash" data-abc="true">Delete item</a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="list-item" data-id="8" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false">
+                  <div><a href="#" data-abc="true"><span class="w-40 avatar gd-success"><img src="https://img.icons8.com/doodle/24/000000/user-male.png" alt="."></span></a></div>
+                  <div class="flex">
+                     <a href="#" class="item-author text-color" data-abc="true">Lawrence Telon</a>
+                     <div class="item-except text-muted text-sm h-1x">For what reason would it be advisable for me to think</div>
+                  </div>
+                  <div class="no-wrap">
+                     <div class="item-date text-muted text-sm d-none d-md-block">02/11 18</div>
+                  </div>
+                  <div>
+                     <div class="item-action dropdown">
+                        <a href="#" data-toggle="dropdown" class="text-muted" data-abc="true">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                              <circle cx="12" cy="12" r="1"></circle>
+                              <circle cx="12" cy="5" r="1"></circle>
+                              <circle cx="12" cy="19" r="1"></circle>
+                           </svg>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right bg-black" role="menu">
+                           <a class="dropdown-item" href="#" data-abc="true">See detail </a><a class="dropdown-item download" data-abc="true">Download </a><a class="dropdown-item edit" data-abc="true">Edit</a>
+                           <div class="dropdown-divider"></div>
+                           <a class="dropdown-item trash" data-abc="true">Delete item</a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+        </div>     
+      </div>  
+   </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

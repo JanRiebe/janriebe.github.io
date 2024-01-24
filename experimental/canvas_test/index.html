@@ -14,7 +14,7 @@
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = true;
     ctx.translate(0.5, 0.5);
-    ctx.fillStyle = "grey";
+    ctx.fillStyle = "white";
     ctx.fillRect(0,0, canvas.width, canvas.height);
     let currentPath = [];
     let currentColor = 'black';
@@ -31,6 +31,17 @@
     canvas.addEventListener('pointermove' , drawTouch);
     //canvas.addEventListener('pointerup' , endDrawingTouch);
     
+
+    function calculateNormal(a, b)
+    {
+      let dx = b.x - a.x; 
+      let dy = b.y - a.y
+      let len = Math.sqrt(dx*dx+dy*dy);
+      if(len===0) len = 0.0001;
+      let normal = {x: -dy/len, y: dx/len};
+      return normal;
+    }
+
     
     function processPointer(event)
     {
@@ -144,103 +155,40 @@
       if (currentPath.length > 1) {
         ctx.strokeStyle = currentColor;
         ctx.fillStyle = currentColor;
-        //ctx.lineWidth = currentPath[0].pressure * 20;
-        /*
-        for (let i = 1; i < currentPath.length; i++) {
-          const point = currentPath[i];
-          ctx.beginPath();
-          ctx.moveTo(currentPath[i-1].x, currentPath[i-1].y);
-          ctx.lineWidth = point.pressure * 20;
-          ctx.lineTo(point.x, point.y);
-          ctx.stroke();
-        }
-        */
-        
+
         const widthFactor = 1;
         const minWidth = 0.1;
         let lastNormal = {x:0,y:0};
-	ctx.beginPath();
-	  ctx.moveTo(currentPath[0].x, currentPath[0].y);
-          ctx.lineTo(currentPath[1].x+currentPath[1].pressure*widthFactor, currentPath[1].y+currentPath[1].pressure*widthFactor);
+        ctx.beginPath();
+        ctx.moveTo(currentPath[0].x, currentPath[0].y);
+        let normal = calculateNormal(currentPath[0], currentPath[1]);
+        ctx.lineTo(currentPath[1].x+currentPath[1].pressure*widthFactor, currentPath[1].y+currentPath[1].pressure*widthFactor);
         for (let i = 2; i < currentPath.length; i++) {
           const point = currentPath[i];
+          const lastPoint = currentPath[i-1];
           const width = Math.sqrt(point.pressure) * widthFactor + minWidth;
-          //ctx.moveTo(currentPath[i-1].x+width, currentPath[i-1].y+width);
-          let dx = currentPath[i-1].x - point.x; 
-          let dy = currentPath[i-1].y - point.y
-          let len = Math.sqrt(dx*dx+dy*dy);
-          if(len===0) len = 1;
-          let normal = {x: -dy/len + lastNormal.x/2, y: dx/len  + lastNormal.y/2};
+          normal = calculateNormal(lastPoint, point)
+          normal = {x: normal.x + lastNormal.x/2, y: normal.y  + lastNormal.y/2};
           lastNormal = normal;
           ctx.lineTo(point.x+width*normal.x, point.y+width*normal.y);
         }
         const l = currentPath.length-1;
-        //ctx.moveTo(currentPath[l].x+currentPath[l].pressure*widthFactor, currentPath[l].y+currentPath[l].pressure*widthFactor);
-          ctx.lineTo(currentPath[l].x-currentPath[l].pressure*widthFactor, currentPath[l].y-currentPath[l].pressure*widthFactor);
+        ctx.lineTo(currentPath[l].x, currentPath[l].y);
         for (let i = currentPath.length-1; i > 1; i--) {
           const point = currentPath[i];
           const width = Math.sqrt(point.pressure) * widthFactor + minWidth;
-          //ctx.moveTo(currentPath[i-1].x-width, currentPath[i-1].y-width);
-          let dx = currentPath[i-1].x - point.x; 
-          let dy = currentPath[i-1].y - point.y
-          let len = Math.sqrt(dx*dx+dy*dy);
-          if(len===0) len = 1;
-          let normal = {x: -dy/len, y: dx/len};
+          normal = calculateNormal(currentPath[i-1], point)
+          normal = {x: normal.x + lastNormal.x/2, y: normal.y  + lastNormal.y/2};
+          lastNormal = normal;
           ctx.lineTo(point.x-width*normal.x, point.y-width*normal.y);
         }        
-	  //ctx.moveTo(currentPath[1].x-currentPath[1].pressure*widthFactor, currentPath[1].y-currentPath[1].pressure*widthFactor);
-          ctx.lineTo(currentPath[0].x, currentPath[0].y);
+	        ctx.lineTo(currentPath[0].x, currentPath[0].y);
           ctx.closePath();
         ctx.fill();
+
       }
     }
-    
-    
-    /*
-    var drawSmoothLine = function(surf, ctrl_points){
-    var l = ctrl_points.length;
-    switch (l){
-    case 0:
-    case 1: //no control points
-        break;
-    case 2: //line
-        surf.beginPath();
-        surf.moveTo(ctrl_points[0].x, ctrl_points[0].y);
-        surf.lineTo(ctrl_points[1].x, ctrl_points[1].y);
-        surf.stroke();
-        break;
-    case 3: //lets use the second point as the two middle control points
-        surf.beginPath();
-        surf.moveTo(ctrl_points[0].x, ctrl_points[0].y);
-        surf.bezierCurveTo(ctrl_points[1].x, ctrl_points[1].y, ctrl_points[1].x, ctrl_points[1].y, ctrl_points[2].x, ctrl_points[2].y);
-        surf.stroke();
-        break;
-    default: //lets draw a bezier with the first 4 points, and for the rest lets create a control point to keep the line smooth
-        surf.beginPath();
-        surf.moveTo(ctrl_points[0].x, ctrl_points[0].y);
-        var pnt_a = ctrl_points[1], pnt_b = ctrl_points[2], pnt_end = ctrl_points[3];
-        surf.bezierCurveTo(pnt_a.x, pnt_a.y, pnt_b.x, pnt_b.y, pnt_end.x, pnt_end.y);
-        ctrl_points = ctrl_points.slice(0);
-        l = ctrl_points.length;
-        pnt_b = ctrl_points[2];
-        var i = 5
-        for (; i < l; i += 2){
-            pnt_a = {x: pnt_end.x + (pnt_end.x - pnt_b.x), y: pnt_end.y + (pnt_end.y - pnt_b.y)};
-            pnt_b = ctrl_points[i - 1];
-            pnt_end = ctrl_points[i];
-            surf.bezierCurveTo(pnt_a.x, pnt_a.y, pnt_b.x, pnt_b.y, pnt_end.x, pnt_end.y);
-        }
-        if (i == l){ //a last lonely point, lets use the calculated pnt_a as pnt_b
-            pnt_a = {x: pnt_end.x + (pnt_end.x - pnt_b.x), y: pnt_end.y + (pnt_end.y - pnt_b.y)};
-            pnt_b = pnt_a;
-            pnt_end = ctrl_points[l - 1];
-            surf.bezierCurveTo(pnt_a.x, pnt_a.y, pnt_b.x, pnt_b.y, pnt_end.x, pnt_end.y);
-        }
-        surf.stroke();
-        break;
-    }
-};
-*/
+
   </script>
 </body>
 </html>

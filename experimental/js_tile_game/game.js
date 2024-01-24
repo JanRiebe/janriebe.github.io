@@ -65,7 +65,9 @@ The tiles in tilesets are automatically sliced and given numbers in continuous o
 let tilepaths =
 [
 "./sprites/TX Tileset Grass.png",
-"./sprites/TX Plant.png"
+"./sprites/TX Plant.png",
+"./sprites/grass.png",
+"./sprites/house.png"
 ]
 let tilesets = 
 [
@@ -75,7 +77,7 @@ for(let i=0;i<tilepaths.length;i++)
 { 
   tilesets.push(new Tileset(tilepaths[i], 4,4));
 };
-tilesets.push(new AnimatedTileset(tilesets[0], [[1,1,2,3,4]]));
+tilesets.push(new AnimatedTileset(tilesets[2], [[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]]));
 
 let characterSpritesheet = new Image();
 characterSpritesheet.src= "./sprites/global.png";
@@ -103,7 +105,7 @@ let maps = [
 [
     // Background
   [
-    [2000, 1, 28, 27, 26, 25],
+    [1, 1, 28, 27, 26, 25],
     [2, 0, 29, 0, 0, 24],
     [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [4, 0, 30, 0, 0, 23],
@@ -132,8 +134,8 @@ let maps = [
 // Foreground
   [
     [-1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, 3000, 3001, -1],
+    [-1, -1, -1, 4000, 4000, -1],
     [-1, 1001, -1, -1, -1, -1],
     [-1, 1002, -1, -1, -1, -1],
     [-1, 1003, -1, -1, -1, -1],
